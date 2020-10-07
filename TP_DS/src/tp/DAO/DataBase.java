@@ -215,7 +215,7 @@ public abstract class DataBase {
 		}
 
 		if(!existe_schema) //si no existe el schema ejecuto el script de creacion
-			ejecutarScript("scriptCreacionDeTablas.sql");
+			ejecutarScript("ScriptCreacionDeTablas.sql");
 
 	}
 
@@ -224,7 +224,7 @@ public abstract class DataBase {
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"DROP SCHEMA IF EXISTS tp CASCADE");
+					"DROP SCHEMA IF EXISTS dsi20203c");
 			pstm.executeUpdate();
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -233,8 +233,8 @@ public abstract class DataBase {
 			DataBase.cerrarPstm(pstm);
 			DataBase.cerrarConexion(con);
 		}
-		ejecutarScript("scriptCreacionDeTablas.sql");
-		ejecutarScript("scriptPobladoDeTablas.sql");
+		ejecutarScript("ScriptCreacionDeTablas.sql");
+		//ejecutarScript("ScriptPobladoDeTablas.sql");
 	}
 
 
