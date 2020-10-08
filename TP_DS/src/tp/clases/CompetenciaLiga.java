@@ -13,12 +13,12 @@ public class CompetenciaLiga extends Competencia {
 	private Integer puntosXPresentarse;
 	private Integer puntosXGanado;
 	private Integer puntosXEmpate;
-	
+	private List<EstadisticaTabla> estadisticas;
 	
 	public CompetenciaLiga(int id, String nombre, Modalidad modalidad,
 			List<Participante> listaParticipantes, Fixture fixture, Optional cantSets, String reglamento, EstadoCompetencia estado,
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,
-			Integer id_deporte) {
+			Integer id_deporte, List<EstadisticaTabla> estadisticas) {
 		super(id, nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado, modalidadDePuntuacion, tantosXAusencia,
 				idAdministrador, id_deporte);
 		
@@ -26,6 +26,7 @@ public class CompetenciaLiga extends Competencia {
 		this.setPuntosXPresentarse(puntosXPresentarse);
 		this.setPuntosXGanado(puntosXGanado);
 		this.setPuntosXEmpate(puntosXEmpate);
+		this.setEstadisticas(estadisticas);
 	}
 
 	
@@ -69,5 +70,14 @@ public class CompetenciaLiga extends Competencia {
 	public void setPuntosXGanado(Integer puntosXGanado) {
 		this.puntosXGanado = puntosXGanado;
 	}
-	
+
+
+	public List<EstadisticaTabla> getEstadisticas() {
+		return estadisticas;
+	}
+
+
+	public void setEstadisticas(List<EstadisticaTabla> estadisticas) {
+		this.estadisticas = estadisticas;
+	}
 }
