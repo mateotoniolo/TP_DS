@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.Font;
@@ -21,6 +22,8 @@ import javax.swing.JButton;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
+import java.awt.Window;
 
 public class MainApplication extends JPanel {
 
@@ -33,13 +36,23 @@ public class MainApplication extends JPanel {
 	private void initialize() {
 		
 		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e1) {
-			e1.printStackTrace();
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+			try {
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+					| UnsupportedLookAndFeelException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainApplication.class.getResource("/img/medal.png")));
 		ImageIcon imgCup = new ImageIcon("img/cup.png");
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.getContentPane().setBackground(Color.WHITE);
@@ -61,12 +74,13 @@ public class MainApplication extends JPanel {
 		
 		
 		JLabel lblCup = new JLabel();
-		lblCup.setIcon(imgCup);
+		lblCup.setIcon(new ImageIcon(MainApplication.class.getResource("/img/cup.png")));
 		this.add(lblCup, BorderLayout.EAST);
 		
 		JTextPane txtDescripcion = new JTextPane();
+		txtDescripcion.setEditable(false);
 		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtDescripcion.setPreferredSize(new Dimension(7, 150));
+		txtDescripcion.setPreferredSize(new Dimension(7, 50));
 		txtDescripcion.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pretium "
 				+ "mauris vitae libero consequat elementum. Nam quis ante viverra, interdum eros eu, pellentesque "
 				+ "nisi. Phasellus et arcu ornare, volutpat sapien ac, ultricies lectus. Integer dignissim in "
@@ -85,6 +99,7 @@ public class MainApplication extends JPanel {
 		frame.getContentPane().add(panelUser, BorderLayout.EAST);
 		
 		JTextPane txtpnUsuario = new JTextPane();
+		txtpnUsuario.setEditable(false);
 		txtpnUsuario.setFont(new Font("Dialog", Font.ITALIC, 16));
 		txtpnUsuario.setText("Usuario: ...\r\nCorreoElectronico: ...\r\n");
 		panelUser.setLayout(new BorderLayout(0, 0));
@@ -97,7 +112,7 @@ public class MainApplication extends JPanel {
 		
 		JButton btnCerrarSesion = new JButton("Cerrar Sesi\u00F3n");
 		btnCerrarSesion.setForeground(new Color(0, 0, 0));
-		btnCerrarSesion.setBackground(new Color(255, 0, 0));
+		btnCerrarSesion.setBackground(new Color(255, 102, 102));
 		btnCerrarSesion.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panelUser.add(btnCerrarSesion, BorderLayout.NORTH);
 		
@@ -105,31 +120,42 @@ public class MainApplication extends JPanel {
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("<IMAGEN>");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		panel.add(lblNewLabel, BorderLayout.CENTER);
-		
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setDividerSize(0);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setToolTipText("");
 		panel.add(splitPane, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("Lugares");
-		btnNewButton.setBackground(new Color(0, 0, 0));
-		splitPane.setRightComponent(btnNewButton);
+		JButton btnLugares = new JButton("Lugares");
+		btnLugares.setForeground(new Color(255, 255, 255));
+		btnLugares.setBackground(new Color(51, 51, 51));
+		splitPane.setRightComponent(btnLugares);
 		
-		JButton btnNewButton_1 = new JButton("Competencias");
-//		btnNewButton_1.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//					frame.setContentPane(panelAltaCompetencia = new PanelAltaCompetencia(frame));
-//					frame.revalidate();
-//					frame.repaint();
-//			}
-//		});
-		btnNewButton_1.setBackground(new Color(0, 0, 0));
-		splitPane.setLeftComponent(btnNewButton_1);
+		JButton btnCompetencias = new JButton("Competencias");
+		btnCompetencias.setForeground(new Color(255, 255, 255));
+		btnCompetencias.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				abrirAltaCompetencia();
+			}
+		});
+		btnCompetencias.setBackground(new Color(51, 51, 51));
+		splitPane.setLeftComponent(btnCompetencias);
+		
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(MainApplication.class.getResource("/img/sports.png")));
+		lblNewLabel.setBounds(32, 6, 1026, 361);
+		panel_1.add(lblNewLabel);
 		
 
+	}
+	
+	public void abrirAltaCompetencia() {
+		frame.setVisible(false);
+		new FrameAltaCompetencia().setVisible(true);
 	}
 }
