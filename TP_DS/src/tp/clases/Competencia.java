@@ -25,8 +25,7 @@ public abstract class Competencia {
 	private Integer id_administrador;
 	private Integer id_deporte;
 	
-	// Lista de [ {Lugar, Disponibilidad}, ...] - Revisar
-	//private List<Lugar> Lugares;
+	private List<ItemLugar> Lugares;
 	
 	
 	// constructor
@@ -153,5 +152,17 @@ public abstract class Competencia {
 
 	public void setCantSets(Optional cantSets) {
 		this.cantSets = cantSets;
+	}
+
+	public List<ItemLugar> getLugares() {
+		return Lugares;
+	}
+
+	public void setLugares(List<ItemLugar> lugares) {
+		Lugares = lugares;
+	}
+	
+	public void addItem(ItemLugar lugar) {
+		this.Lugares.add(lugar);
 	}
 }
