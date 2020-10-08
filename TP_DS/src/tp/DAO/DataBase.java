@@ -197,7 +197,7 @@ public abstract class DataBase {
 		try {
 			rs = con.getMetaData().getSchemas();
 			while(rs.next() && !existe_schema) {
-				if(rs.getString(1).equals("tp")) { 
+				if(rs.getString(1).equals("dsi20203c")) { 
 					existe_schema = true; //ya existe el schema
 				}
 			}
