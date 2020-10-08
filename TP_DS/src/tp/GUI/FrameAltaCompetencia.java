@@ -15,6 +15,8 @@ import java.awt.event.ItemListener;
 import java.awt.ComponentOrientation;
 import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
+import java.awt.FocusTraversalPolicy;
+
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
@@ -47,6 +49,11 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import tp.GUI.FrameAltaCompetencia.Modalidad;
+import javax.swing.SwingConstants;
+import javax.swing.JToggleButton;
+import java.awt.Canvas;
+import javax.swing.JInternalFrame;
+import javax.swing.JSeparator;
 
 public class FrameAltaCompetencia extends JFrame {
 	
@@ -55,7 +62,7 @@ public class FrameAltaCompetencia extends JFrame {
 	private JFrame frmAltaCompetencia;
 	private JTextField txtNombre;
 	private JTextField txtCantidadSets;
-	private JTextField txtCantidadTantos;
+	private JTextField txtTantosAusencia;
 	private JTextField txtPuntosPartidoGanado;
 	private JTextField txtPuntosEmpate;
 	private JTextField txtPuntosPresentarse;
@@ -116,7 +123,7 @@ public class FrameAltaCompetencia extends JFrame {
 		txtNombre = new JTextField();
 		txtNombre.setMinimumSize(new Dimension(15, 28));
 		txtNombre.setPreferredSize(new Dimension(15, 30));
-		txtNombre.setBounds(10, 31, 373, 26);
+		txtNombre.setBounds(10, 31, 395, 26);
 		frmAltaCompetencia.getContentPane().add(txtNombre);
 		txtNombre.setColumns(10);
 		txtNombre.addActionListener( a -> {
@@ -126,12 +133,12 @@ public class FrameAltaCompetencia extends JFrame {
 		
 		JLabel lblDeporte = new JLabel("Deporte *");
 		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDeporte.setBounds(10, 67, 75, 14);
+		lblDeporte.setBounds(10, 60, 75, 20);
 		frmAltaCompetencia.getContentPane().add(lblDeporte);
 		
 		JComboBox boxDeporte = new JComboBox();
 		boxDeporte.setModel(new DefaultComboBoxModel(new String[] {"", "Basketball", "Football", "Tennis"}));
-		boxDeporte.setBounds(10, 92, 153, 26);
+		boxDeporte.setBounds(10, 79, 195, 26);
 		frmAltaCompetencia.getContentPane().add(boxDeporte);
 		ingresoDeporte = false;
 		boxDeporte.addActionListener( a -> {
@@ -140,12 +147,12 @@ public class FrameAltaCompetencia extends JFrame {
 		
 		JLabel lblModalidad = new JLabel("Modalidad *");
 		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblModalidad.setBounds(10, 125, 86, 14);
+		lblModalidad.setBounds(210, 63, 86, 14);
 		frmAltaCompetencia.getContentPane().add(lblModalidad);
 		
 		JComboBox<Modalidad> boxModalidad = new JComboBox<Modalidad>();
 		boxModalidad.setModel(new DefaultComboBoxModel(new String[] {"", "Liga", "Eliminacion Simple", "Eliminacion Doble"}));
-		boxModalidad.setBounds(10, 150, 153, 26);
+		boxModalidad.setBounds(210, 79, 195, 26);
 		frmAltaCompetencia.getContentPane().add(boxModalidad);
 		boxModalidad.addActionListener( a -> {
 			switch((String)boxModalidad.getSelectedItem()) {
@@ -159,32 +166,31 @@ public class FrameAltaCompetencia extends JFrame {
 		
 		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n *");
 		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblFormaPuntuacion.setBounds(10, 183, 144, 14);
+		lblFormaPuntuacion.setBounds(10, 196, 144, 14);
 		frmAltaCompetencia.getContentPane().add(lblFormaPuntuacion);
 		
-		JComboBox boxFormaPuntuacion = new JComboBox();
-		boxFormaPuntuacion.setBounds(10, 208, 153, 26);
-		frmAltaCompetencia.getContentPane().add(boxFormaPuntuacion);
-		
 		JLabel lblCantidadSets = new JLabel("Cantidad de Sets *");
-		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCantidadSets.setBounds(43, 248, 123, 14);
+		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCantidadSets.setBounds(227, 214, 123, 14);
 		frmAltaCompetencia.getContentPane().add(lblCantidadSets);
 		
 		txtCantidadSets = new JTextField();
-		txtCantidadSets.setBounds(258, 243, 40, 26);
+		txtCantidadSets.setEnabled(false);
+		txtCantidadSets.setBounds(365, 208, 40, 26);
 		frmAltaCompetencia.getContentPane().add(txtCantidadSets);
 		txtCantidadSets.setColumns(10);
 		
-		JLabel lblCantidadTantos = new JLabel("Cantidad de tantos por ausencia *");
-		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCantidadTantos.setBounds(43, 280, 224, 19);
+		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia *");
+		lblCantidadTantos.setToolTipText("");
+		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCantidadTantos.setBounds(227, 235, 144, 26);
 		frmAltaCompetencia.getContentPane().add(lblCantidadTantos);
 		
-		txtCantidadTantos = new JTextField();
-		txtCantidadTantos.setBounds(258, 277, 40, 26);
-		frmAltaCompetencia.getContentPane().add(txtCantidadTantos);
-		txtCantidadTantos.setColumns(10);
+		txtTantosAusencia = new JTextField();
+		txtTantosAusencia.setEnabled(false);
+		txtTantosAusencia.setBounds(365, 235, 40, 26);
+		frmAltaCompetencia.getContentPane().add(txtTantosAusencia);
+		txtTantosAusencia.setColumns(10);
 		
 		JLabel lblReglamento = new JLabel("Reglamento");
 		lblReglamento.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -192,63 +198,117 @@ public class FrameAltaCompetencia extends JFrame {
 		frmAltaCompetencia.getContentPane().add(lblReglamento);
 		
 		JLabel lblPuntosPartidoGanado = new JLabel("Puntos por Partido Ganado");
-		lblPuntosPartidoGanado.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPuntosPartidoGanado.setBounds(175, 96, 166, 17);
+		lblPuntosPartidoGanado.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPuntosPartidoGanado.setBounds(10, 120, 166, 17);
 		frmAltaCompetencia.getContentPane().add(lblPuntosPartidoGanado);
 		
 		txtPuntosPartidoGanado = new JTextField();
-		txtPuntosPartidoGanado.setBounds(343, 92, 40, 26);
+		txtPuntosPartidoGanado.setEnabled(false);
+		txtPuntosPartidoGanado.setBounds(165, 115, 40, 26);
 		frmAltaCompetencia.getContentPane().add(txtPuntosPartidoGanado);
 		txtPuntosPartidoGanado.setColumns(10);
 		
 		JLabel lblPuntosEmpate = new JLabel("Puntos por Empate");
-		lblPuntosEmpate.setEnabled(false);
-		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPuntosEmpate.setBounds(175, 150, 123, 20);
+		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPuntosEmpate.setBounds(210, 150, 123, 20);
 		frmAltaCompetencia.getContentPane().add(lblPuntosEmpate);
 		
 		txtPuntosEmpate = new JTextField();
 		txtPuntosEmpate.setEnabled(false);
-		txtPuntosEmpate.setBounds(343, 148, 40, 26);
+		txtPuntosEmpate.setBounds(365, 147, 40, 26);
 		frmAltaCompetencia.getContentPane().add(txtPuntosEmpate);
 		txtPuntosEmpate.setColumns(10);
 		
 		JRadioButton rdbtnEmpate = new JRadioButton("Empate");
-		rdbtnEmpate.setBounds(182, 122, 75, 23);
+		rdbtnEmpate.setEnabled(false);
+		rdbtnEmpate.setBounds(10, 149, 75, 23);
 		frmAltaCompetencia.getContentPane().add(rdbtnEmpate);
+		
 		rdbtnEmpate.addActionListener( a -> {
 			if (rdbtnEmpate.isSelected()) {
 				txtPuntosEmpate.setEnabled(true);
-				lblPuntosEmpate.setEnabled(true);
 			} else {
 				txtPuntosEmpate.setEnabled(false);
-				lblPuntosEmpate.setEnabled(false);
 				txtPuntosEmpate.setText("");
 			}
 		});
 		
 		JLabel lblPuntosPresentarse = new JLabel("Puntos por Presentarse");
-		lblPuntosPresentarse.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPuntosPresentarse.setBounds(175, 182, 150, 17);
+		lblPuntosPresentarse.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPuntosPresentarse.setBounds(210, 120, 150, 17);
 		frmAltaCompetencia.getContentPane().add(lblPuntosPresentarse);
 		
 		txtPuntosPresentarse = new JTextField();
-		txtPuntosPresentarse.setBounds(343, 178, 40, 26);
+		txtPuntosPresentarse.setEnabled(false);
+		txtPuntosPresentarse.setBounds(365, 117, 40, 26);
 		frmAltaCompetencia.getContentPane().add(txtPuntosPresentarse);
 		txtPuntosPresentarse.setColumns(10);
 		
+		boxModalidad.addActionListener( a -> {
+			if(boxModalidad.getSelectedItem()=="Liga") {
+				txtPuntosPartidoGanado.setEnabled(true);
+				txtPuntosPresentarse.setEnabled(true);
+				rdbtnEmpate.setEnabled(true);
+			} else {
+				txtPuntosPartidoGanado.setEnabled(false);
+				txtPuntosPartidoGanado.setText("");
+				txtPuntosPresentarse.setEnabled(false);
+				txtPuntosPresentarse.setText("");
+				rdbtnEmpate.setEnabled(false);
+			}
+		});
+		
+		JRadioButton rdbtnSets = new JRadioButton("Sets");
+		rdbtnSets.setBounds(10, 214, 115, 18);
+		frmAltaCompetencia.getContentPane().add(rdbtnSets);
+		
+		JRadioButton rdbtnPuntuacion = new JRadioButton("Puntuacion");
+		rdbtnPuntuacion.setBounds(10, 239, 115, 18);
+		frmAltaCompetencia.getContentPane().add(rdbtnPuntuacion);
+		
+		JRadioButton rdbtnPuntuacionFinal = new JRadioButton("Puntuacion Final");
+		rdbtnPuntuacionFinal.setBounds(10, 264, 115, 18);
+		frmAltaCompetencia.getContentPane().add(rdbtnPuntuacionFinal);
+		
+		rdbtnSets.addActionListener( a -> {
+			rdbtnPuntuacion.setSelected(false);
+			rdbtnPuntuacionFinal.setSelected(false);
+			txtCantidadSets.setEnabled(true);
+			txtTantosAusencia.setEnabled(false);
+			txtTantosAusencia.setText("");
+		});
+		
+		rdbtnPuntuacion.addActionListener( a -> {
+			rdbtnSets.setSelected(false);
+			rdbtnPuntuacionFinal.setSelected(false);
+			txtTantosAusencia.setEnabled(true);
+			txtCantidadSets.setEnabled(false);
+			txtCantidadSets.setText("");
+		});
+		
+		rdbtnPuntuacionFinal.addActionListener( a -> {
+			rdbtnSets.setSelected(false);
+			rdbtnPuntuacion.setSelected(false);
+			txtTantosAusencia.setEnabled(true);
+			txtCantidadSets.setEnabled(false);
+			txtTantosAusencia.setEnabled(false);
+			txtCantidadSets.setText("");
+			txtTantosAusencia.setText("");
+		});
+		
+		
 		JSplitPane splitLugar = new JSplitPane();
 		splitLugar.setDividerSize(0);
-		splitLugar.setBounds(559, 322, 219, 30);
+		splitLugar.setBounds(559, 301, 219, 30);
 		frmAltaCompetencia.getContentPane().add(splitLugar);
 		
 		JButton btnModificarLugar = new JButton("Modificar Lugar");
-		btnModificarLugar.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnModificarLugar.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		btnModificarLugar.setEnabled(false);
 		splitLugar.setLeftComponent(btnModificarLugar);
 		
 		JButton btnAgregarLugar = new JButton("Agregar Lugar");
-		btnAgregarLugar.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnAgregarLugar.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		splitLugar.setRightComponent(btnAgregarLugar);
 		
 		JSplitPane splitCancelarConfirmar = new JSplitPane();
@@ -259,46 +319,72 @@ public class FrameAltaCompetencia extends JFrame {
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setEnabled(false);
 		btnConfirmar.setBackground(new Color(102, 102, 255));
+		
 		txtNombre.addActionListener( a -> {
-			ingresoNombre = true;
-//			ingresoNombre = (nombreCompetencia.length()!=0);
-			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion && ingresoCantidadSets && ingresoCantidadTantos) btnConfirmar.setEnabled(true);
-			else btnConfirmar.setEnabled(false);
+			ingresoNombre = (txtNombre.getText().length()!=0);
+			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion) {
+				if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+					btnConfirmar.setEnabled(true);
+				} else if(rdbtnPuntuacion.isSelected() && ingresoCantidadTantos) {
+					btnConfirmar.setEnabled(true);
+				}
+			} else {
+				btnConfirmar.setEnabled(false);
+			}
 		});
 		
 		boxDeporte.addActionListener( a -> {
-//			ingresoDeporte = (boxDeporte.getSelectedItem()!="");
-			ingresoDeporte = true;
-			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion && ingresoCantidadSets && ingresoCantidadTantos) btnConfirmar.setEnabled(true);
-			else btnConfirmar.setEnabled(false);
+			ingresoDeporte = (boxDeporte.getSelectedItem()!="");
+			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion) {
+				if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+					btnConfirmar.setEnabled(true);
+				} else if(rdbtnPuntuacion.isSelected() && ingresoCantidadTantos) {
+					btnConfirmar.setEnabled(true);
+				}
+			} else {
+				btnConfirmar.setEnabled(false);
+			}
 		});
 		
 		boxModalidad.addActionListener( a -> {
-//			ingresoModalidad = (boxModalidad.getSelectedItem() != "");
-			ingresoModalidad = true;
-			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion && ingresoCantidadSets && ingresoCantidadTantos) btnConfirmar.setEnabled(true);
-			else btnConfirmar.setEnabled(false);
-		});
-		
-		boxFormaPuntuacion.addActionListener( a -> {
-			ingresoFormaPuntuacion= true;
-			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion && ingresoCantidadSets && ingresoCantidadTantos) btnConfirmar.setEnabled(true);
-			else btnConfirmar.setEnabled(false);
+			ingresoModalidad = (boxModalidad.getSelectedItem() != "");
+			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion) {
+				if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+					btnConfirmar.setEnabled(true);
+				} else if(rdbtnPuntuacion.isSelected() && ingresoCantidadTantos) {
+					btnConfirmar.setEnabled(true);
+				}
+			} else {
+				btnConfirmar.setEnabled(false);
+			}
 		});
 		
 		txtCantidadSets.addActionListener( a -> {
-//			ingresoCantidadSets= (txtCantidadSets.getText() != "");
-			ingresoCantidadSets= true;
+			ingresoCantidadSets= (txtCantidadSets.getText() != "");
 //			Double.valueOf(txtCantidadSets.getText())
-			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion && ingresoCantidadSets && ingresoCantidadTantos) btnConfirmar.setEnabled(true);
-			else btnConfirmar.setEnabled(false);
+			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion) {
+				if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+					btnConfirmar.setEnabled(true);
+				} else if(rdbtnPuntuacion.isSelected() && ingresoCantidadTantos) {
+					btnConfirmar.setEnabled(true);
+				}
+			} else {
+				btnConfirmar.setEnabled(false);
+			}
 		});
 		
-		txtCantidadTantos.addActionListener( a -> {
-//			ingresoCantidadTantos= (txtCantidadTantos.getText() != "");
+		txtTantosAusencia.addActionListener( a -> {
+			ingresoCantidadTantos= (txtTantosAusencia.getText() != "");
 			ingresoCantidadTantos= true;
-			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion && ingresoCantidadSets && ingresoCantidadTantos) btnConfirmar.setEnabled(true);
-			else btnConfirmar.setEnabled(false);
+			if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion) {
+				if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+					btnConfirmar.setEnabled(true);
+				} else if(rdbtnPuntuacion.isSelected() && ingresoCantidadTantos) {
+					btnConfirmar.setEnabled(true);
+				}
+			} else {
+				btnConfirmar.setEnabled(false);
+			}
 		});
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -310,8 +396,9 @@ public class FrameAltaCompetencia extends JFrame {
 		splitCancelarConfirmar.setLeftComponent(btnCancelar);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(new Color(204, 204, 204));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(417, 31, 361, 294);
+		scrollPane.setBounds(417, 31, 361, 270);
 		frmAltaCompetencia.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -352,11 +439,25 @@ public class FrameAltaCompetencia extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 336, 548, 114);
+		scrollPane_1.setBounds(10, 336, 768, 114);
 		frmAltaCompetencia.getContentPane().add(scrollPane_1);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setMaximumSize(new Dimension(100, 100));
-		scrollPane_1.setViewportView(textArea);
+		JTextArea txtReglamento = new JTextArea();
+		txtReglamento.setMaximumSize(new Dimension(100, 100));
+		scrollPane_1.setViewportView(txtReglamento);
+		
+
+		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.BLACK);
+		separator.setBounds(10, 182, 395, 14);
+		frmAltaCompetencia.getContentPane().add(separator);
+
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 294, 395, 14);
+		frmAltaCompetencia.getContentPane().add(separator_1);
+		
+
 	}
 }

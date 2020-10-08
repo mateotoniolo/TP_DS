@@ -143,6 +143,7 @@ public class MainApplication extends JPanel {
 		splitPane.setLeftComponent(btnCompetencias);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(204, 204, 204));
 		panel.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
 		
