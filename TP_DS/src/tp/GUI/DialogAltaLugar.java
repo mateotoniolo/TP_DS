@@ -28,9 +28,10 @@ public class DialogAltaLugar extends JDialog {
 
 	public DialogAltaLugar() {
 		try {
-			DialogAltaLugar dialog = new DialogAltaLugar();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+//			DialogAltaLugar dialog = new DialogAltaLugar();
+			this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			this.setVisible(true);
+			initialize();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,11 +59,11 @@ public class DialogAltaLugar extends JDialog {
 		contentPanel.add(boxLugar);
 		
 //		lugares
-		List<String> lugares = LugarDAO.getLugares();
-		System.out.println(lugares);
-		for(String l1 : lugares) {
-			boxLugar.addItem(l1);
-		}
+//		List<String> lugares = LugarDAO.getLugares();
+//		System.out.println(lugares);
+//		for(String l1 : lugares) {
+//			boxLugar.addItem(l1);
+//		}
 		
 		//		ingresoDeporte = false;
 		//		boxDeporte.addActionListener( a -> {
