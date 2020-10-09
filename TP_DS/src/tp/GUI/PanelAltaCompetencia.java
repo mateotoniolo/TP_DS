@@ -1,11 +1,9 @@
 package tp.GUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+<<<<<<< HEAD
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -17,14 +15,17 @@ import java.awt.ComponentOrientation;
 import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
 import java.awt.FocusTraversalPolicy;
+=======
+>>>>>>> 5d3d80a2e27bbb9d57d2e2cb2ac37294c2aacbb4
 
-import javax.swing.JCheckBox;
+
+
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JSplitPane;
@@ -34,12 +35,7 @@ import java.awt.Frame;
 
 import javax.swing.table.DefaultTableModel;
 
-import tp.clases.Competencia;
-import tp.clases.CompetenciaEliminacionDoble;
-import tp.clases.CompetenciaEliminacionSimple;
-import tp.clases.CompetenciaLiga;
 
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -47,6 +43,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import java.awt.Dimension;
 import javax.swing.DefaultComboBoxModel;
+<<<<<<< HEAD
 import javax.swing.ImageIcon;
 
 import java.beans.PropertyChangeListener;
@@ -60,6 +57,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JToggleButton;
 import java.awt.Canvas;
 import javax.swing.JInternalFrame;
+=======
+>>>>>>> 5d3d80a2e27bbb9d57d2e2cb2ac37294c2aacbb4
 import javax.swing.JSeparator;
 import java.awt.CardLayout;
 import javax.swing.GroupLayout;
@@ -88,9 +87,34 @@ public class PanelAltaCompetencia extends JPanel {
 	private boolean ingresoCantidadTantos;
 
 	public PanelAltaCompetencia(JFrame frame) {
+<<<<<<< HEAD
 		
 		setBackground(new Color(153, 204, 255));
 		setLayout(null);
+=======
+		initialize(frame);
+	}
+
+	private void initialize(JFrame frame) {
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		frame.getContentPane().setBackground(new Color(153, 204, 255));
+		frame.setBackground(new Color(153, 204, 255));
+		frame.setTitle("ALTA COMPETENCIA");
+		frame.setBounds(100, 50, 1280, 720);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+>>>>>>> 5d3d80a2e27bbb9d57d2e2cb2ac37294c2aacbb4
 		
 		JLabel lblNombre = new JLabel("Nombre *");
 		lblNombre.setBounds(10, 11, 152, 21);
@@ -148,12 +172,17 @@ public class PanelAltaCompetencia extends JPanel {
 			}
 		});
 		
-		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n *");
+		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuación *");
 		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
+<<<<<<< HEAD
 		lblFormaPuntuacion.setBounds(10, 224, 183, 30);
 		add(lblFormaPuntuacion);
+=======
+		lblFormaPuntuacion.setBounds(10, 224, 190, 30);
+		frame.getContentPane().add(lblFormaPuntuacion);
+>>>>>>> 5d3d80a2e27bbb9d57d2e2cb2ac37294c2aacbb4
 		
-		JLabel lblCantidadSets = new JLabel("Cantidad de Sets *");
+		JLabel lblCantidadSets = new JLabel("Cantidad de Sets ");
 		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblCantidadSets.setBounds(10, 307, 152, 30);
 		add(lblCantidadSets);
@@ -167,8 +196,13 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia *");
 		lblCantidadTantos.setToolTipText("");
 		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
+<<<<<<< HEAD
 		lblCantidadTantos.setBounds(291, 309, 175, 26);
 		add(lblCantidadTantos);
+=======
+		lblCantidadTantos.setBounds(291, 309, 185, 26);
+		frame.getContentPane().add(lblCantidadTantos);
+>>>>>>> 5d3d80a2e27bbb9d57d2e2cb2ac37294c2aacbb4
 		
 		txtTantosAusencia = new JTextField();
 		txtTantosAusencia.setEnabled(false);
@@ -194,8 +228,13 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		JLabel lblPuntosEmpate = new JLabel("Puntos por Empate");
 		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 18));
+<<<<<<< HEAD
 		lblPuntosEmpate.setBounds(560, 155, 152, 24);
 		add(lblPuntosEmpate);
+=======
+		lblPuntosEmpate.setBounds(560, 155, 165, 24);
+		frame.getContentPane().add(lblPuntosEmpate);
+>>>>>>> 5d3d80a2e27bbb9d57d2e2cb2ac37294c2aacbb4
 		
 		txtPuntosEmpate = new JTextField();
 		txtPuntosEmpate.setEnabled(false);
