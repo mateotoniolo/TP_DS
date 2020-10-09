@@ -1,29 +1,17 @@
 package tp.GUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import java.awt.Component;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.ComponentOrientation;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import java.awt.FocusTraversalPolicy;
 
-import javax.swing.JCheckBox;
+
+
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JSplitPane;
@@ -31,12 +19,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.table.DefaultTableModel;
 
-import tp.clases.Competencia;
-import tp.clases.CompetenciaEliminacionDoble;
-import tp.clases.CompetenciaEliminacionSimple;
-import tp.clases.CompetenciaLiga;
 
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -44,17 +27,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import java.awt.Dimension;
 import javax.swing.DefaultComboBoxModel;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import tp.DAO.DataBase;
-import tp.GUI.PanelAltaCompetencia.Modalidad;
-import javax.swing.SwingConstants;
-import javax.swing.JToggleButton;
-import java.awt.Canvas;
-import javax.swing.JInternalFrame;
 import javax.swing.JSeparator;
 
 public class PanelAltaCompetencia extends JPanel {
@@ -99,7 +71,7 @@ public class PanelAltaCompetencia extends JPanel {
 		frame.getContentPane().setBackground(new Color(153, 204, 255));
 		frame.setBackground(new Color(153, 204, 255));
 		frame.setTitle("ALTA COMPETENCIA");
-		frame.setBounds(100, 100, 1280, 720);
+		frame.setBounds(100, 50, 1280, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -158,12 +130,12 @@ public class PanelAltaCompetencia extends JPanel {
 			}
 		});
 		
-		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n *");
+		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuación *");
 		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblFormaPuntuacion.setBounds(10, 224, 183, 30);
+		lblFormaPuntuacion.setBounds(10, 224, 190, 30);
 		frame.getContentPane().add(lblFormaPuntuacion);
 		
-		JLabel lblCantidadSets = new JLabel("Cantidad de Sets *");
+		JLabel lblCantidadSets = new JLabel("Cantidad de Sets ");
 		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblCantidadSets.setBounds(10, 307, 152, 30);
 		frame.getContentPane().add(lblCantidadSets);
@@ -177,7 +149,7 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia *");
 		lblCantidadTantos.setToolTipText("");
 		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCantidadTantos.setBounds(291, 309, 175, 26);
+		lblCantidadTantos.setBounds(291, 309, 185, 26);
 		frame.getContentPane().add(lblCantidadTantos);
 		
 		txtTantosAusencia = new JTextField();
@@ -204,7 +176,7 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		JLabel lblPuntosEmpate = new JLabel("Puntos por Empate");
 		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPuntosEmpate.setBounds(560, 155, 152, 24);
+		lblPuntosEmpate.setBounds(560, 155, 165, 24);
 		frame.getContentPane().add(lblPuntosEmpate);
 		
 		txtPuntosEmpate = new JTextField();
