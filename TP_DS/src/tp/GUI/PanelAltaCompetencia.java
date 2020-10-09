@@ -48,18 +48,20 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import tp.GUI.FrameAltaCompetencia.Modalidad;
+
+import tp.DAO.DataBase;
+import tp.GUI.PanelAltaCompetencia.Modalidad;
 import javax.swing.SwingConstants;
 import javax.swing.JToggleButton;
 import java.awt.Canvas;
 import javax.swing.JInternalFrame;
 import javax.swing.JSeparator;
 
-public class FrameAltaCompetencia extends JFrame {
+public class PanelAltaCompetencia extends JPanel {
 	
 	public enum Modalidad { LIGA, ELIMINACIONSIMPLE, ELIMINACIONDOBLE };
 
-	private JFrame frmAltaCompetencia;
+	private JFrame frame;
 	private JTextField txtNombre;
 	private JTextField txtCantidadSets;
 	private JTextField txtTantosAusencia;
@@ -77,24 +79,11 @@ public class FrameAltaCompetencia extends JFrame {
 	private boolean ingresoCantidadSets;
 	private boolean ingresoCantidadTantos;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameAltaCompetencia window = new FrameAltaCompetencia();
-					window.frmAltaCompetencia.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public PanelAltaCompetencia(JFrame frame) {
+		initialize(frame);
 	}
 
-	public FrameAltaCompetencia() {
-		initialize();
-	}
-
-	private void initialize() {
+	private void initialize(JFrame frame) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -107,24 +96,23 @@ public class FrameAltaCompetencia extends JFrame {
 			e.printStackTrace();
 		}
 		
-		frmAltaCompetencia = new JFrame();
-		frmAltaCompetencia.getContentPane().setBackground(new Color(153, 204, 255));
-		frmAltaCompetencia.setBackground(new Color(153, 204, 255));
-		frmAltaCompetencia.setTitle("ALTA COMPETENCIA");
-		frmAltaCompetencia.setBounds(100, 100, 800, 520);
-		frmAltaCompetencia.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmAltaCompetencia.getContentPane().setLayout(null);
+		frame.getContentPane().setBackground(new Color(153, 204, 255));
+		frame.setBackground(new Color(153, 204, 255));
+		frame.setTitle("ALTA COMPETENCIA");
+		frame.setBounds(100, 100, 1280, 720);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNombre = new JLabel("Nombre *");
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNombre.setBounds(10, 11, 75, 14);
-		frmAltaCompetencia.getContentPane().add(lblNombre);
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNombre.setBounds(10, 12, 166, 20);
+		frame.getContentPane().add(lblNombre);
 		
 		txtNombre = new JTextField();
 		txtNombre.setMinimumSize(new Dimension(15, 28));
 		txtNombre.setPreferredSize(new Dimension(15, 30));
-		txtNombre.setBounds(10, 31, 395, 26);
-		frmAltaCompetencia.getContentPane().add(txtNombre);
+		txtNombre.setBounds(10, 31, 514, 30);
+		frame.getContentPane().add(txtNombre);
 		txtNombre.setColumns(10);
 		txtNombre.addActionListener( a -> {
 			nombreCompetencia = txtNombre.getText(); 
@@ -132,28 +120,34 @@ public class FrameAltaCompetencia extends JFrame {
 
 		
 		JLabel lblDeporte = new JLabel("Deporte *");
-		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDeporte.setBounds(10, 60, 75, 20);
-		frmAltaCompetencia.getContentPane().add(lblDeporte);
+		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblDeporte.setBounds(10, 69, 115, 25);
+		frame.getContentPane().add(lblDeporte);
 		
 		JComboBox boxDeporte = new JComboBox();
+//		DataBase.leerJson();
+//		DeporteDAO dd = new DeporteDAO();
+//		boxDeporte.setModel(new DefaultComboBoxModel());
+//		for(string s : dd.getNombres) {
+//			boxDeporte.addItem(s);
+//		}
 		boxDeporte.setModel(new DefaultComboBoxModel(new String[] {"", "Basketball", "Football", "Tennis"}));
-		boxDeporte.setBounds(10, 79, 195, 26);
-		frmAltaCompetencia.getContentPane().add(boxDeporte);
+		boxDeporte.setBounds(10, 96, 232, 30);
+		frame.getContentPane().add(boxDeporte);
 		ingresoDeporte = false;
-		boxDeporte.addActionListener( a -> {
-			deporteCompetencia = (String) boxDeporte.getSelectedItem();
-		});
+//		boxDeporte.addActionListener( a -> {
+//			deporteCompetencia = boxDeporte.getSelectedItem();
+//		});
 		
 		JLabel lblModalidad = new JLabel("Modalidad *");
-		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblModalidad.setBounds(210, 63, 86, 14);
-		frmAltaCompetencia.getContentPane().add(lblModalidad);
+		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblModalidad.setBounds(254, 69, 115, 22);
+		frame.getContentPane().add(lblModalidad);
 		
 		JComboBox<Modalidad> boxModalidad = new JComboBox<Modalidad>();
 		boxModalidad.setModel(new DefaultComboBoxModel(new String[] {"", "Liga", "Eliminacion Simple", "Eliminacion Doble"}));
-		boxModalidad.setBounds(210, 79, 195, 26);
-		frmAltaCompetencia.getContentPane().add(boxModalidad);
+		boxModalidad.setBounds(254, 96, 270, 30);
+		frame.getContentPane().add(boxModalidad);
 		boxModalidad.addActionListener( a -> {
 			switch((String)boxModalidad.getSelectedItem()) {
 			case "Liga": modalidadCompetencia = Modalidad.LIGA;
@@ -165,64 +159,65 @@ public class FrameAltaCompetencia extends JFrame {
 		});
 		
 		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n *");
-		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblFormaPuntuacion.setBounds(10, 196, 144, 14);
-		frmAltaCompetencia.getContentPane().add(lblFormaPuntuacion);
+		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblFormaPuntuacion.setBounds(10, 224, 183, 30);
+		frame.getContentPane().add(lblFormaPuntuacion);
 		
 		JLabel lblCantidadSets = new JLabel("Cantidad de Sets *");
-		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCantidadSets.setBounds(227, 214, 123, 14);
-		frmAltaCompetencia.getContentPane().add(lblCantidadSets);
+		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCantidadSets.setBounds(10, 307, 152, 30);
+		frame.getContentPane().add(lblCantidadSets);
 		
 		txtCantidadSets = new JTextField();
 		txtCantidadSets.setEnabled(false);
-		txtCantidadSets.setBounds(365, 208, 40, 26);
-		frmAltaCompetencia.getContentPane().add(txtCantidadSets);
+		txtCantidadSets.setBounds(174, 311, 40, 26);
+		frame.getContentPane().add(txtCantidadSets);
 		txtCantidadSets.setColumns(10);
 		
 		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia *");
 		lblCantidadTantos.setToolTipText("");
-		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCantidadTantos.setBounds(227, 235, 144, 26);
-		frmAltaCompetencia.getContentPane().add(lblCantidadTantos);
+		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCantidadTantos.setBounds(291, 309, 175, 26);
+		frame.getContentPane().add(lblCantidadTantos);
 		
 		txtTantosAusencia = new JTextField();
 		txtTantosAusencia.setEnabled(false);
-		txtTantosAusencia.setBounds(365, 235, 40, 26);
-		frmAltaCompetencia.getContentPane().add(txtTantosAusencia);
+		txtTantosAusencia.setBounds(478, 311, 40, 26);
+		frame.getContentPane().add(txtTantosAusencia);
 		txtTantosAusencia.setColumns(10);
 		
 		JLabel lblReglamento = new JLabel("Reglamento");
-		lblReglamento.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblReglamento.setBounds(10, 311, 75, 20);
-		frmAltaCompetencia.getContentPane().add(lblReglamento);
+		lblReglamento.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblReglamento.setBounds(10, 387, 115, 30);
+		frame.getContentPane().add(lblReglamento);
 		
 		JLabel lblPuntosPartidoGanado = new JLabel("Puntos por Partido Ganado");
-		lblPuntosPartidoGanado.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPuntosPartidoGanado.setBounds(10, 120, 166, 17);
-		frmAltaCompetencia.getContentPane().add(lblPuntosPartidoGanado);
+		lblPuntosPartidoGanado.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPuntosPartidoGanado.setBounds(10, 156, 219, 21);
+		frame.getContentPane().add(lblPuntosPartidoGanado);
 		
 		txtPuntosPartidoGanado = new JTextField();
 		txtPuntosPartidoGanado.setEnabled(false);
-		txtPuntosPartidoGanado.setBounds(165, 115, 40, 26);
-		frmAltaCompetencia.getContentPane().add(txtPuntosPartidoGanado);
+		txtPuntosPartidoGanado.setBounds(227, 155, 40, 26);
+		frame.getContentPane().add(txtPuntosPartidoGanado);
 		txtPuntosPartidoGanado.setColumns(10);
 		
 		JLabel lblPuntosEmpate = new JLabel("Puntos por Empate");
-		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPuntosEmpate.setBounds(210, 150, 123, 20);
-		frmAltaCompetencia.getContentPane().add(lblPuntosEmpate);
+		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPuntosEmpate.setBounds(560, 155, 152, 24);
+		frame.getContentPane().add(lblPuntosEmpate);
 		
 		txtPuntosEmpate = new JTextField();
 		txtPuntosEmpate.setEnabled(false);
-		txtPuntosEmpate.setBounds(365, 147, 40, 26);
-		frmAltaCompetencia.getContentPane().add(txtPuntosEmpate);
+		txtPuntosEmpate.setBounds(724, 156, 40, 26);
+		frame.getContentPane().add(txtPuntosEmpate);
 		txtPuntosEmpate.setColumns(10);
 		
 		JRadioButton rdbtnEmpate = new JRadioButton("Empate");
+		rdbtnEmpate.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		rdbtnEmpate.setEnabled(false);
-		rdbtnEmpate.setBounds(10, 149, 75, 23);
-		frmAltaCompetencia.getContentPane().add(rdbtnEmpate);
+		rdbtnEmpate.setBounds(559, 130, 89, 23);
+		frame.getContentPane().add(rdbtnEmpate);
 		
 		rdbtnEmpate.addActionListener( a -> {
 			if (rdbtnEmpate.isSelected()) {
@@ -234,14 +229,14 @@ public class FrameAltaCompetencia extends JFrame {
 		});
 		
 		JLabel lblPuntosPresentarse = new JLabel("Puntos por Presentarse");
-		lblPuntosPresentarse.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPuntosPresentarse.setBounds(210, 120, 150, 17);
-		frmAltaCompetencia.getContentPane().add(lblPuntosPresentarse);
+		lblPuntosPresentarse.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPuntosPresentarse.setBounds(295, 158, 194, 19);
+		frame.getContentPane().add(lblPuntosPresentarse);
 		
 		txtPuntosPresentarse = new JTextField();
 		txtPuntosPresentarse.setEnabled(false);
-		txtPuntosPresentarse.setBounds(365, 117, 40, 26);
-		frmAltaCompetencia.getContentPane().add(txtPuntosPresentarse);
+		txtPuntosPresentarse.setBounds(484, 156, 40, 26);
+		frame.getContentPane().add(txtPuntosPresentarse);
 		txtPuntosPresentarse.setColumns(10);
 		
 		boxModalidad.addActionListener( a -> {
@@ -259,16 +254,19 @@ public class FrameAltaCompetencia extends JFrame {
 		});
 		
 		JRadioButton rdbtnSets = new JRadioButton("Sets");
-		rdbtnSets.setBounds(10, 214, 115, 18);
-		frmAltaCompetencia.getContentPane().add(rdbtnSets);
+		rdbtnSets.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		rdbtnSets.setBounds(10, 260, 115, 18);
+		frame.getContentPane().add(rdbtnSets);
 		
 		JRadioButton rdbtnPuntuacion = new JRadioButton("Puntuacion");
-		rdbtnPuntuacion.setBounds(10, 239, 115, 18);
-		frmAltaCompetencia.getContentPane().add(rdbtnPuntuacion);
+		rdbtnPuntuacion.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		rdbtnPuntuacion.setBounds(291, 260, 115, 18);
+		frame.getContentPane().add(rdbtnPuntuacion);
 		
 		JRadioButton rdbtnPuntuacionFinal = new JRadioButton("Puntuacion Final");
-		rdbtnPuntuacionFinal.setBounds(10, 264, 115, 18);
-		frmAltaCompetencia.getContentPane().add(rdbtnPuntuacionFinal);
+		rdbtnPuntuacionFinal.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		rdbtnPuntuacionFinal.setBounds(560, 260, 175, 18);
+		frame.getContentPane().add(rdbtnPuntuacionFinal);
 		
 		rdbtnSets.addActionListener( a -> {
 			rdbtnPuntuacion.setSelected(false);
@@ -299,8 +297,8 @@ public class FrameAltaCompetencia extends JFrame {
 		
 		JSplitPane splitLugar = new JSplitPane();
 		splitLugar.setDividerSize(0);
-		splitLugar.setBounds(559, 301, 219, 30);
-		frmAltaCompetencia.getContentPane().add(splitLugar);
+		splitLugar.setBounds(802, 592, 219, 30);
+		frame.getContentPane().add(splitLugar);
 		
 		JButton btnModificarLugar = new JButton("Modificar Lugar");
 		btnModificarLugar.setFont(new Font("SansSerif", Font.PLAIN, 11));
@@ -313,8 +311,8 @@ public class FrameAltaCompetencia extends JFrame {
 		
 		JSplitPane splitCancelarConfirmar = new JSplitPane();
 		splitCancelarConfirmar.setDividerSize(0);
-		splitCancelarConfirmar.setBounds(570, 450, 208, 25);
-		frmAltaCompetencia.getContentPane().add(splitCancelarConfirmar);
+		splitCancelarConfirmar.setBounds(1050, 650, 208, 25);
+		frame.getContentPane().add(splitCancelarConfirmar);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setEnabled(false);
@@ -398,12 +396,17 @@ public class FrameAltaCompetencia extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(new Color(204, 204, 204));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(417, 31, 361, 270);
-		frmAltaCompetencia.getContentPane().add(scrollPane);
+		scrollPane.setBounds(802, 11, 456, 581);
+		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
 				{null, null},
 				{null, null},
 				{null, null},
@@ -420,27 +423,21 @@ public class FrameAltaCompetencia extends JFrame {
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Object.class, Boolean.class
+				Object.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				false, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
 		});
 		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(180);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(15);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		scrollPane.setViewportView(table);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 336, 768, 114);
-		frmAltaCompetencia.getContentPane().add(scrollPane_1);
+		scrollPane_1.setBounds(10, 429, 768, 193);
+		frame.getContentPane().add(scrollPane_1);
 		
 		JTextArea txtReglamento = new JTextArea();
 		txtReglamento.setMaximumSize(new Dimension(100, 100));
@@ -450,13 +447,13 @@ public class FrameAltaCompetencia extends JFrame {
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.BLACK);
-		separator.setBounds(10, 182, 395, 14);
-		frmAltaCompetencia.getContentPane().add(separator);
+		separator.setBounds(10, 206, 768, 14);
+		frame.getContentPane().add(separator);
 
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(10, 294, 395, 14);
-		frmAltaCompetencia.getContentPane().add(separator_1);
+		separator_1.setBounds(10, 362, 768, 14);
+		frame.getContentPane().add(separator_1);
 		
 
 	}

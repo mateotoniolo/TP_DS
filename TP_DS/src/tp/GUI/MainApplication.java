@@ -25,7 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.Toolkit;
 import java.awt.Window;
 
-public class MainApplication extends JPanel {
+public class MainApplication extends JFrame {
 
 	public JFrame frame;
 
