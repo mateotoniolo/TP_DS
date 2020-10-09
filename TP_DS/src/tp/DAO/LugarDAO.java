@@ -8,7 +8,7 @@ import java.util.List;
 
 public class LugarDAO {
 	
-	public List<String> getLugares() {
+	public static List<String> getLugares() {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;

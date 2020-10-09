@@ -3,6 +3,8 @@ package tp.GUI;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
+
+import tp.DAO.LugarDAO;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 
@@ -20,10 +25,8 @@ public class DialogAltaLugar extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
+
+	public DialogAltaLugar() {
 		try {
 			DialogAltaLugar dialog = new DialogAltaLugar();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -32,11 +35,8 @@ public class DialogAltaLugar extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Create the dialog.
-	 */
-	public DialogAltaLugar() {
+		
+	public void initialize() {
 		setTitle("Nuevo Lugar");
 		getContentPane().setBackground(new Color(153, 204, 255));
 		setBounds(100, 100, 450, 162);
@@ -53,15 +53,21 @@ public class DialogAltaLugar extends JDialog {
 		contentPanel.add(lblLugar);
 		lblLugar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JComboBox boxLugar = new JComboBox();
+		JComboBox<String> boxLugar = new JComboBox<String>();
 		boxLugar.setBounds(6, 35, 215, 26);
 		contentPanel.add(boxLugar);
+		
+//		lugares
+		List<String> lugares = LugarDAO.getLugares();
+		System.out.println(lugares);
+		for(String l1 : lugares) {
+			boxLugar.addItem(l1);
+		}
+		
 		//		ingresoDeporte = false;
 		//		boxDeporte.addActionListener( a -> {
 		//			deporteCompetencia = (String) boxDeporte.getSelectedItem();
 		//		});
-		
-		
 		
 		JLabel lblDisponibilidad = new JLabel("Lugar *");
 		lblDisponibilidad.setBounds(6, 16, 47, 17);

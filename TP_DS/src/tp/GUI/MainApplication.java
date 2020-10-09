@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
 import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.Font;
@@ -24,10 +25,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.FlowLayout;
 
 public class MainApplication extends JFrame {
 
-	public JFrame frame;
+	public JFrame frameMain;
+	private PanelAltaCompetencia panelAltaCompetencia;
 
 	public MainApplication() {
 		initialize();
@@ -51,31 +54,33 @@ public class MainApplication extends JFrame {
 			}
 		}
 		
-		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainApplication.class.getResource("/img/medal.png")));
+		frameMain = new JFrame();
+		frameMain.setIconImage(Toolkit.getDefaultToolkit().getImage(MainApplication.class.getResource("/img/medal.png")));
 		ImageIcon imgCup = new ImageIcon("img/cup.png");
-		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-		frame.getContentPane().setBackground(Color.WHITE);
-		frame.setBounds(100, 100, 1280, 720);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frameMain.setExtendedState(Frame.MAXIMIZED_BOTH);
+		frameMain.getContentPane().setBackground(Color.WHITE);
+		frameMain.setBounds(100, 100, 1280, 751);
+		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frameMain.getContentPane().setLayout(new BorderLayout(0, 0));
+		frameMain.getContentPane().setLayout(new BorderLayout(0, 0));
 		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(153, 204, 255));
+		panel.setForeground(new Color(153, 204, 255));
+		panel.setPreferredSize(new Dimension(10, 180));
+		frameMain.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new BorderLayout(0, 0));
 		
-		
-		this.setPreferredSize(new Dimension(10, 200));
-		this.setBackground(new Color(102, 204, 255));
-		frame.getContentPane().add(this, BorderLayout.NORTH);
-		this.setLayout(new BorderLayout(0, 0));
-		JLabel lblNombre = new JLabel("TORNEOS Y COMPETENCIAS");
+		JLabel lblNombre = new JLabel("Torneos y Competencias");
 		lblNombre.setPreferredSize(new Dimension(200, 14));
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombre.setFont(new Font("Dialog", Font.BOLD, 30));
-		this.add(lblNombre, BorderLayout.CENTER);
+		lblNombre.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 45));
+		panel.add(lblNombre);
 		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(MainApplication.class.getResource("/img/cup.png")));
+		panel.add(lblNewLabel_1, BorderLayout.EAST);
 		
-		JLabel lblCup = new JLabel();
-		lblCup.setIcon(new ImageIcon(MainApplication.class.getResource("/img/cup.png")));
-		this.add(lblCup, BorderLayout.EAST);
 		
 		JTextPane txtDescripcion = new JTextPane();
 		txtDescripcion.setEditable(false);
@@ -92,11 +97,11 @@ public class MainApplication extends JFrame {
 				+ "tincidunt urna quis pharetra volutpat. Vivamus pharetra, massa at pulvinar sollicitudin, ligula "
 				+ "eros hendrerit nibh, id varius leo erat convallis odio. Mauris ultrices metus sodales arcu "
 				+ "varius malesuada.");
-		frame.getContentPane().add(txtDescripcion, BorderLayout.SOUTH);
+		frameMain.getContentPane().add(txtDescripcion, BorderLayout.SOUTH);
 		
 		JPanel panelUser = new JPanel();
 		panelUser.setPreferredSize(new Dimension(200, 10));
-		frame.getContentPane().add(panelUser, BorderLayout.EAST);
+		frameMain.getContentPane().add(panelUser, BorderLayout.EAST);
 		
 		JTextPane txtpnUsuario = new JTextPane();
 		txtpnUsuario.setEditable(false);
@@ -116,47 +121,41 @@ public class MainApplication extends JFrame {
 		btnCerrarSesion.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panelUser.add(btnCerrarSesion, BorderLayout.NORTH);
 		
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanel panelLugaresCompetenciasImagen = new JPanel();
+		frameMain.getContentPane().add(panelLugaresCompetenciasImagen, BorderLayout.CENTER);
+		panelLugaresCompetenciasImagen.setLayout(new BorderLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setDividerSize(0);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setToolTipText("");
-		panel.add(splitPane, BorderLayout.NORTH);
+		panelLugaresCompetenciasImagen.add(splitPane, BorderLayout.NORTH);
 		
 		JButton btnLugares = new JButton("Lugares");
+		btnLugares.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		btnLugares.setForeground(new Color(255, 255, 255));
 		btnLugares.setBackground(new Color(51, 51, 51));
 		splitPane.setRightComponent(btnLugares);
 		
 		JButton btnCompetencias = new JButton("Competencias");
+		btnCompetencias.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		btnCompetencias.setForeground(new Color(255, 255, 255));
-		btnCompetencias.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				abrirAltaCompetencia();
-			}
+		btnCompetencias.addActionListener( a -> {
+			frameMain.setContentPane(panelAltaCompetencia = new PanelAltaCompetencia(frameMain));
+			frameMain.revalidate();
+			frameMain.repaint();
 		});
 		btnCompetencias.setBackground(new Color(51, 51, 51));
 		splitPane.setLeftComponent(btnCompetencias);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(204, 204, 204));
-		panel.add(panel_1, BorderLayout.CENTER);
+		panelLugaresCompetenciasImagen.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(MainApplication.class.getResource("/img/sports.png")));
 		lblNewLabel.setBounds(32, 6, 1026, 361);
 		panel_1.add(lblNewLabel);
-		
-
-	}
-	
-	public void abrirAltaCompetencia() {
-		frame.setVisible(false);
-		new FrameAltaCompetencia().setVisible(true);
 	}
 }
