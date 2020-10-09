@@ -56,11 +56,12 @@ public class DialogAltaLugar extends JDialog {
 		JComboBox boxLugar = new JComboBox();
 		boxLugar.setBounds(6, 35, 215, 26);
 		contentPanel.add(boxLugar);
-		boxLugar.setModel(new DefaultComboBoxModel(new String[] {"", "Basketball", "Football", "Tennis"}));
 		//		ingresoDeporte = false;
 		//		boxDeporte.addActionListener( a -> {
 		//			deporteCompetencia = (String) boxDeporte.getSelectedItem();
 		//		});
+		
+		
 		
 		JLabel lblDisponibilidad = new JLabel("Lugar *");
 		lblDisponibilidad.setBounds(6, 16, 47, 17);
