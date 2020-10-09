@@ -2,6 +2,10 @@ package tp.clases;
 
 import tp.enums.TipoDni;
 
+import java.util.List;
+
+import tp.auditorias.AuditoriaIngresoUsuario;
+
 public class Usuario {
 
 	private String id_Usuario;
@@ -12,7 +16,13 @@ public class Usuario {
 	private TipoDni tipoDni;
 	private Double documento;
 	private Localidad localidad;
+	private List<AuditoriaIngresoUsuario> historialIngresos;
 
+	// constructor sin params
+	public Usuario() {
+		super();
+	}
+	
 	public Usuario(String idUsuario, String correoElectronico, String contraseña, String nombre, String apellido, TipoDni tipoDni, Double documento, Localidad localidad){
 		this.setIdUsuario(idUsuario);
 		this.setCcorreoElectronico(correoElectronico);
@@ -88,5 +98,16 @@ public class Usuario {
 	public void setIdUsuario(String idUsuario) {
 		this.id_Usuario = idUsuario;
 	}
+
+	public List<AuditoriaIngresoUsuario> getHistorialIngresos() {
+		return historialIngresos;
+	}
+
+	public void setHistorialIngresos(List<AuditoriaIngresoUsuario> historialIngresos) {
+		this.historialIngresos = historialIngresos;
+	}
 	
+	public void addIngreso(AuditoriaIngresoUsuario ingreso) {
+		this.historialIngresos.add(ingreso);
+	}
 }

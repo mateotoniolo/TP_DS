@@ -4,6 +4,11 @@ public class Pais {
 	private Integer id_Pais;
 	private String nombre;
 	
+	// constructor sin params
+	public Pais() {
+		super();
+	}
+	
 	public Pais(Integer idPais, String nombre){
 		this.setIdPais(idPais);
 		this.setNombre(nombre);

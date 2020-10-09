@@ -7,6 +7,11 @@ public class EstadisticaTabla {
 	private Integer partidosPerdidos;
 	private Integer partidosEmpatados;
 	
+	// constructor sin params
+	public EstadisticaTabla() {
+		super();
+	}
+	
 	// constructor
 	public EstadisticaTabla(Integer posicion, String nombre, Integer pG, Integer pP, Integer pE) {
 		this.setPosicion(posicion);

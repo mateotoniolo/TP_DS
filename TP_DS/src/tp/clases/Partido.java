@@ -11,6 +11,11 @@ public class Partido {
 	// falta Partido eliminacionPerdedor
 	
 	// constructores
+	// constructor sin params
+	public Partido() {
+		super();
+	}
+	
 	// lugar y resultado no definido
 	public Partido(Participante pA, Participante pB) {
 		this.setParticipanteA(pA);

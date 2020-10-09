@@ -6,6 +6,11 @@ public class ItemLugar {
 	private Integer cantidadEncuentros;
 	private Boolean disponibilidad;
 	
+	// constructor sin params
+	public ItemLugar() {
+		super();
+	}
+	
 	// constructor
 	public ItemLugar(Integer codigo, Integer competencia, Integer cantidadEncuentros, Boolean disponibilidad) {
 		this.setCodigo(codigo);

@@ -9,6 +9,11 @@ import tp.enums.ModalidadDePuntuacion;
 
 public class CompetenciaEliminacionDoble extends Competencia {
 
+	// constructor sin params
+	public CompetenciaEliminacionDoble() {
+		super();
+	}
+		
 	public CompetenciaEliminacionDoble(int id, String nombre, Modalidad modalidad,
 			List<Participante> listaParticipantes, Fixture fixture, Optional cantSets, String reglamento, EstadoCompetencia estado,
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,

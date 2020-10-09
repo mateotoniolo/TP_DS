@@ -1,15 +1,14 @@
-package tp.clases;
+package tp.auditorias;
 
-public class Set {
+public class AuditoriaSet {
 	private Integer tantosA;
 	private Integer tantosB;
 	
-	// constructor sin params
-	public Set() {
+	public AuditoriaSet() {
 		super();
 	}
 	
-	public Set(Integer tantosA, Integer tantosB) {
+	public AuditoriaSet(Integer tantosA, Integer tantosB) {
 		this.setTantosA(tantosA);
 		this.setTantosB(tantosB);
 	}
@@ -29,5 +28,4 @@ public class Set {
 	public void setTantosB(Integer tantosB) {
 		this.tantosB = tantosB;
 	}
-
 }

@@ -5,6 +5,11 @@ public class Provincia {
 	private String nombre;
 	private Pais pais;
 	
+	// constructor sin params
+	public Provincia() {
+		super();
+	}
+	
 	public Provincia(Integer idProvincia, String nombre, Pais pais){
 		this.setIdProvincia(idProvincia);
 		this.setNombre(nombre);

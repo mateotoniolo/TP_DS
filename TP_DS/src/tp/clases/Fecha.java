@@ -8,6 +8,11 @@ public class Fecha {
 	private Boolean rondaGanadores;
 	private List<Partido> listaPartidos;
 	
+	// constructor sin params
+	public Fecha() {
+		super();
+	}
+	
 	// constructor
 	public Fecha(Integer numero, Boolean rPerdedores, Boolean rGanadores) {
 		this.setNumero(numero);

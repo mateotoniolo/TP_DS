@@ -5,6 +5,10 @@ public class EstadisticasEquipoPuntuacion extends EstadisticaTabla {
 	private Integer tantosEnContra;
 	private Integer diferencia;
 	
+	// constructor sin params
+	public EstadisticasEquipoPuntuacion() {
+		super();
+	}
 	
 	public EstadisticasEquipoPuntuacion(Integer posicion, String nombre, Integer pG, Integer pP, Integer pE, Integer tFavor, Integer tEnContra, Integer dif) {
 		super(posicion, nombre, pG, pP, pE);

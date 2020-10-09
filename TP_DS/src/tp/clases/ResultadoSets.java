@@ -7,6 +7,11 @@ public class ResultadoSets extends Resultado {
 	private Integer setsB;
 	private List<Set> listaSets;
 	
+	// constructor sin params
+	public ResultadoSets() {
+		super();
+	}
+	
 	public ResultadoSets(Boolean aPresente, Boolean bPresente, Integer setsA, Integer setsB) {
 		super(aPresente, bPresente);
 		this.setSetsA(setsA);

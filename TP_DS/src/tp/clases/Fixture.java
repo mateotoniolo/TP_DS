@@ -5,6 +5,7 @@ import java.util.List;
 public class Fixture {
 	private List<Fecha> listaFechas;
 	
+	// constructor sin params
 	public Fixture() {
 		
 	}

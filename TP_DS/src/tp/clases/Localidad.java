@@ -6,6 +6,11 @@ public class Localidad {
 	private String nombre;
 	private Provincia provincia;
 	
+	// constructor sin params
+	public Localidad() {
+		super();
+	}
+	
 	public Localidad(Integer idLocalidad, String nombre, Provincia provincia){
 		this.setIdLocalidad(idLocalidad);
 		this.setNombre(nombre);

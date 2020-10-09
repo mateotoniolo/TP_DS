@@ -6,6 +6,11 @@ public class Lugar {
 	private String nombre;
 	private String descripcion;
 	
+	// constructor sin params
+	public Lugar() {
+		super();
+	}
+	
 	public Lugar(Integer codigo, String nombre, String descripcion) {
 		this.setId(codigo);
 		this.setNombre(nombre);

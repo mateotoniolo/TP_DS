@@ -6,7 +6,7 @@ import tp.enums.ModalidadDePuntuacion;
 
 import java.util.List;
 import java.util.Optional;
-
+import tp.auditorias.AuditoriaDeBajaDeCompetencia;
 public abstract class Competencia {
 	
 	private Integer id_Competencia;
@@ -26,15 +26,21 @@ public abstract class Competencia {
 	private Integer id_deporte;
 	
 	private List<ItemLugar> Lugares;
+	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
 	
 	
+	// constructor sin params
+	public Competencia() {
+		super();
+	}
+		
 	// constructor
 	public Competencia(int id, String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Fixture fixture, Optional cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Integer id_deporte) {
 		this.setIdCompetencia(id);
 		this.setNombre(nombre);
 		this.setModalidad(modalidad);
 		this.setParticipantes(listaParticipantes);
-		this.fixture = fixture;
+		this.setFixture(fixture);
 		this.setReglamento(reglamento);
 		this.setEstado(estado);
 		this.setCantSets(cantSets);
@@ -53,6 +59,9 @@ public abstract class Competencia {
 		this.id_deporte = id_deporte;
 	}
 
+	public void setFixture(Fixture fixture) {
+		this.fixture = fixture;
+	}
 	
 	public Fixture getFixture(){
 		return fixture;
@@ -164,5 +173,17 @@ public abstract class Competencia {
 	
 	public void addItem(ItemLugar lugar) {
 		this.Lugares.add(lugar);
+	}
+
+	public List<AuditoriaDeBajaDeCompetencia> getHistorialBaja() {
+		return historialBaja;
+	}
+
+	public void setHistorialBaja(List<AuditoriaDeBajaDeCompetencia> historialBaja) {
+		this.historialBaja = historialBaja;
+	}
+	
+	public void addBajaDeCompetencia(AuditoriaDeBajaDeCompetencia baja) {
+		this.historialBaja.add(baja);
 	}
 }

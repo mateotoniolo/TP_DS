@@ -15,6 +15,11 @@ public class CompetenciaLiga extends Competencia {
 	private Integer puntosXEmpate;
 	private List<EstadisticaTabla> estadisticas;
 	
+	// constructor sin params
+	public CompetenciaLiga() {
+		super();
+	}
+	
 	public CompetenciaLiga(int id, String nombre, Modalidad modalidad,
 			List<Participante> listaParticipantes, Fixture fixture, Optional cantSets, String reglamento, EstadoCompetencia estado,
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,

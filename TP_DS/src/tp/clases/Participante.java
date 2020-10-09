@@ -1,13 +1,20 @@
 package tp.clases;
 
+import java.util.List;
+
+import tp.auditorias.AuditoriaModificacionParticipante;
+
 public final class Participante {
 
 	private Integer id_Participante;
 	private String email;
 	private String nombre;
-	// private lista de competencias?
-	// private EstadisticaTabla
-	
+	private List<AuditoriaModificacionParticipante> historialCambios;
+
+	// constructor sin params
+	public Participante() {
+		super();
+	}
 	
 	public Participante(Integer idParticipante, String email, String nombre) {
 		this.setIdParticipante(idParticipante);
@@ -37,6 +44,18 @@ public final class Participante {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<AuditoriaModificacionParticipante> getHistorialCambios() {
+		return historialCambios;
+	}
+
+	public void setHistorialCambios(List<AuditoriaModificacionParticipante> historialCambios) {
+		this.historialCambios = historialCambios;
+	}
+	
+	public void addCambio(AuditoriaModificacionParticipante cambio) {
+		this.historialCambios.add(cambio);
 	}
 	
 }

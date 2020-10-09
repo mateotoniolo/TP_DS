@@ -1,15 +1,15 @@
-package tp.clases;
+package tp.auditorias;
 
-public class Set {
+public class AuditoriaResultadoPuntuacion extends AuditoriaModificacionResultado {
 	private Integer tantosA;
 	private Integer tantosB;
 	
-	// constructor sin params
-	public Set() {
+	public AuditoriaResultadoPuntuacion() {
 		super();
 	}
 	
-	public Set(Integer tantosA, Integer tantosB) {
+	public AuditoriaResultadoPuntuacion(Integer tantosA, Integer tantosB) {
+		super();
 		this.setTantosA(tantosA);
 		this.setTantosB(tantosB);
 	}
@@ -29,5 +29,4 @@ public class Set {
 	public void setTantosB(Integer tantosB) {
 		this.tantosB = tantosB;
 	}
-
 }

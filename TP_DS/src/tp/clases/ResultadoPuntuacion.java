@@ -5,6 +5,10 @@ public class ResultadoPuntuacion extends Resultado {
 	private Integer tantosA;
 	private Integer tantosB;
 	
+	// constructor sin params
+	public ResultadoPuntuacion() {
+		super();
+	}
 	
 	public ResultadoPuntuacion(Boolean aPresente, Boolean bPresente, Integer tantosA, Integer tantosB) {
 		super(aPresente, bPresente);

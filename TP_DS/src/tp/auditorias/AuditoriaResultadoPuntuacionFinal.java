@@ -1,21 +1,12 @@
-package tp.clases;
+package tp.auditorias;
 
-public class ResultadoPuntuacionFinal extends Resultado {
+public class AuditoriaResultadoPuntuacionFinal extends AuditoriaModificacionResultado {
 	private Boolean ganaA;
 	private Boolean ganaB;
 	private Boolean empate;
 	
-	// constructor sin params
-	public ResultadoPuntuacionFinal() {
+	public AuditoriaResultadoPuntuacionFinal() {
 		super();
-	}
-	
-	public ResultadoPuntuacionFinal(Boolean aPresente, Boolean bPresente, Boolean ganaA, Boolean ganaB, Boolean empate) {
-		super(aPresente, bPresente);
-		
-		this.setGanaA(ganaA);
-		this.setGanaB(ganaB);
-		this.setEmpate(empate);
 	}
 
 	public Boolean getGanaA() {
@@ -41,5 +32,4 @@ public class ResultadoPuntuacionFinal extends Resultado {
 	public void setEmpate(Boolean empate) {
 		this.empate = empate;
 	}
-
 }

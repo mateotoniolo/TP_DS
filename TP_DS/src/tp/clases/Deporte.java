@@ -4,6 +4,11 @@ public class Deporte {
 	
 	private Integer id_deporte;
 	private String nombre;
+	
+	// constructor sin params
+	public Deporte() {
+		super();
+	}
 
 	public Deporte(Integer id_deporte, String nombre) {
 		this.setIdDeporte(id_deporte);
