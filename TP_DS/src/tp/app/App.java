@@ -12,7 +12,7 @@ public static void main(String[] args) {
 			public void run() {
 				try {
 					MainApplication mainApplication = new MainApplication();
-					mainApplication.frame.setVisible(true);
+					mainApplication.frameMain.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

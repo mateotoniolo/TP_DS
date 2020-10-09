@@ -3,6 +3,17 @@ package tp.GUI;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.ComponentOrientation;
+import javax.swing.BoxLayout;
+import java.awt.FlowLayout;
+import java.awt.FocusTraversalPolicy;
 
 
 
@@ -17,6 +28,8 @@ import javax.swing.JTable;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Frame;
+
 import javax.swing.table.DefaultTableModel;
 
 
@@ -27,7 +40,26 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import java.awt.Dimension;
 import javax.swing.DefaultComboBoxModel;
+
+import javax.swing.ImageIcon;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import tp.DAO.DataBase;
+import tp.DAO.DeporteDAO;
+import tp.GUI.PanelAltaCompetencia.Modalidad;
+import javax.swing.SwingConstants;
+import javax.swing.JToggleButton;
+import java.awt.Canvas;
+import javax.swing.JInternalFrame;
+
 import javax.swing.JSeparator;
+import java.awt.CardLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class PanelAltaCompetencia extends JPanel {
 	
@@ -50,6 +82,7 @@ public class PanelAltaCompetencia extends JPanel {
 	private boolean ingresoFormaPuntuacion;
 	private boolean ingresoCantidadSets;
 	private boolean ingresoCantidadTantos;
+	private DialogAltaLugar dialogAltaLugar;
 
 	public PanelAltaCompetencia(JFrame frame) {
 		initialize(frame);
@@ -68,23 +101,23 @@ public class PanelAltaCompetencia extends JPanel {
 			e.printStackTrace();
 		}
 		
-		frame.getContentPane().setBackground(new Color(153, 204, 255));
-		frame.setBackground(new Color(153, 204, 255));
+		setBackground(new Color(153, 204, 255));
 		frame.setTitle("ALTA COMPETENCIA");
-		frame.setBounds(100, 50, 1280, 720);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		setBounds(100, 50, 1280, 720);
+		setLayout(null);
+
 		
 		JLabel lblNombre = new JLabel("Nombre *");
+		lblNombre.setBounds(10, 11, 152, 21);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNombre.setBounds(10, 12, 166, 20);
-		frame.getContentPane().add(lblNombre);
+		add(lblNombre);
+		
 		
 		txtNombre = new JTextField();
 		txtNombre.setMinimumSize(new Dimension(15, 28));
 		txtNombre.setPreferredSize(new Dimension(15, 30));
 		txtNombre.setBounds(10, 31, 514, 30);
-		frame.getContentPane().add(txtNombre);
+		add(txtNombre);
 		txtNombre.setColumns(10);
 		txtNombre.addActionListener( a -> {
 			nombreCompetencia = txtNombre.getText(); 
@@ -94,18 +127,18 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblDeporte = new JLabel("Deporte *");
 		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDeporte.setBounds(10, 69, 115, 25);
-		frame.getContentPane().add(lblDeporte);
+		add(lblDeporte);
 		
 		JComboBox boxDeporte = new JComboBox();
 //		DataBase.leerJson();
 //		DeporteDAO dd = new DeporteDAO();
 //		boxDeporte.setModel(new DefaultComboBoxModel());
-//		for(string s : dd.getNombres) {
+//		for(String s : dd.getNombres()) {
 //			boxDeporte.addItem(s);
 //		}
-		boxDeporte.setModel(new DefaultComboBoxModel(new String[] {"", "Basketball", "Football", "Tennis"}));
+//		boxDeporte.setModel(new DefaultComboBoxModel(new String[] {"", "Basketball", "Football", "Tennis"}));
 		boxDeporte.setBounds(10, 96, 232, 30);
-		frame.getContentPane().add(boxDeporte);
+		add(boxDeporte);
 		ingresoDeporte = false;
 //		boxDeporte.addActionListener( a -> {
 //			deporteCompetencia = boxDeporte.getSelectedItem();
@@ -114,12 +147,12 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblModalidad = new JLabel("Modalidad *");
 		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblModalidad.setBounds(254, 69, 115, 22);
-		frame.getContentPane().add(lblModalidad);
+		add(lblModalidad);
 		
 		JComboBox<Modalidad> boxModalidad = new JComboBox<Modalidad>();
 		boxModalidad.setModel(new DefaultComboBoxModel(new String[] {"", "Liga", "Eliminacion Simple", "Eliminacion Doble"}));
 		boxModalidad.setBounds(254, 96, 270, 30);
-		frame.getContentPane().add(boxModalidad);
+		add(boxModalidad);
 		boxModalidad.addActionListener( a -> {
 			switch((String)boxModalidad.getSelectedItem()) {
 			case "Liga": modalidadCompetencia = Modalidad.LIGA;
@@ -132,64 +165,73 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuación *");
 		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+		lblFormaPuntuacion.setBounds(10, 224, 183, 30);
+		add(lblFormaPuntuacion);
 		lblFormaPuntuacion.setBounds(10, 224, 190, 30);
 		frame.getContentPane().add(lblFormaPuntuacion);
+
 		
 		JLabel lblCantidadSets = new JLabel("Cantidad de Sets ");
 		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblCantidadSets.setBounds(10, 307, 152, 30);
-		frame.getContentPane().add(lblCantidadSets);
+		add(lblCantidadSets);
 		
 		txtCantidadSets = new JTextField();
 		txtCantidadSets.setEnabled(false);
 		txtCantidadSets.setBounds(174, 311, 40, 26);
-		frame.getContentPane().add(txtCantidadSets);
+		add(txtCantidadSets);
 		txtCantidadSets.setColumns(10);
 		
 		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia *");
 		lblCantidadTantos.setToolTipText("");
 		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+		lblCantidadTantos.setBounds(291, 309, 175, 26);
+		add(lblCantidadTantos);
 		lblCantidadTantos.setBounds(291, 309, 185, 26);
 		frame.getContentPane().add(lblCantidadTantos);
 		
 		txtTantosAusencia = new JTextField();
 		txtTantosAusencia.setEnabled(false);
 		txtTantosAusencia.setBounds(478, 311, 40, 26);
-		frame.getContentPane().add(txtTantosAusencia);
+		add(txtTantosAusencia);
 		txtTantosAusencia.setColumns(10);
 		
 		JLabel lblReglamento = new JLabel("Reglamento");
 		lblReglamento.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblReglamento.setBounds(10, 387, 115, 30);
-		frame.getContentPane().add(lblReglamento);
+		add(lblReglamento);
 		
 		JLabel lblPuntosPartidoGanado = new JLabel("Puntos por Partido Ganado");
 		lblPuntosPartidoGanado.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblPuntosPartidoGanado.setBounds(10, 156, 219, 21);
-		frame.getContentPane().add(lblPuntosPartidoGanado);
+		add(lblPuntosPartidoGanado);
 		
 		txtPuntosPartidoGanado = new JTextField();
 		txtPuntosPartidoGanado.setEnabled(false);
 		txtPuntosPartidoGanado.setBounds(227, 155, 40, 26);
-		frame.getContentPane().add(txtPuntosPartidoGanado);
+		add(txtPuntosPartidoGanado);
 		txtPuntosPartidoGanado.setColumns(10);
 		
 		JLabel lblPuntosEmpate = new JLabel("Puntos por Empate");
 		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPuntosEmpate.setBounds(560, 155, 152, 24);
+		add(lblPuntosEmpate);
 		lblPuntosEmpate.setBounds(560, 155, 165, 24);
 		frame.getContentPane().add(lblPuntosEmpate);
 		
 		txtPuntosEmpate = new JTextField();
 		txtPuntosEmpate.setEnabled(false);
 		txtPuntosEmpate.setBounds(724, 156, 40, 26);
-		frame.getContentPane().add(txtPuntosEmpate);
+		add(txtPuntosEmpate);
 		txtPuntosEmpate.setColumns(10);
 		
 		JRadioButton rdbtnEmpate = new JRadioButton("Empate");
 		rdbtnEmpate.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		rdbtnEmpate.setEnabled(false);
 		rdbtnEmpate.setBounds(559, 130, 89, 23);
-		frame.getContentPane().add(rdbtnEmpate);
+		add(rdbtnEmpate);
 		
 		rdbtnEmpate.addActionListener( a -> {
 			if (rdbtnEmpate.isSelected()) {
@@ -203,12 +245,12 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblPuntosPresentarse = new JLabel("Puntos por Presentarse");
 		lblPuntosPresentarse.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblPuntosPresentarse.setBounds(295, 158, 194, 19);
-		frame.getContentPane().add(lblPuntosPresentarse);
+		add(lblPuntosPresentarse);
 		
 		txtPuntosPresentarse = new JTextField();
 		txtPuntosPresentarse.setEnabled(false);
 		txtPuntosPresentarse.setBounds(484, 156, 40, 26);
-		frame.getContentPane().add(txtPuntosPresentarse);
+		add(txtPuntosPresentarse);
 		txtPuntosPresentarse.setColumns(10);
 		
 		boxModalidad.addActionListener( a -> {
@@ -228,17 +270,17 @@ public class PanelAltaCompetencia extends JPanel {
 		JRadioButton rdbtnSets = new JRadioButton("Sets");
 		rdbtnSets.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnSets.setBounds(10, 260, 115, 18);
-		frame.getContentPane().add(rdbtnSets);
+		add(rdbtnSets);
 		
 		JRadioButton rdbtnPuntuacion = new JRadioButton("Puntuacion");
 		rdbtnPuntuacion.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnPuntuacion.setBounds(291, 260, 115, 18);
-		frame.getContentPane().add(rdbtnPuntuacion);
+		add(rdbtnPuntuacion);
 		
 		JRadioButton rdbtnPuntuacionFinal = new JRadioButton("Puntuacion Final");
 		rdbtnPuntuacionFinal.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnPuntuacionFinal.setBounds(560, 260, 175, 18);
-		frame.getContentPane().add(rdbtnPuntuacionFinal);
+		add(rdbtnPuntuacionFinal);
 		
 		rdbtnSets.addActionListener( a -> {
 			rdbtnPuntuacion.setSelected(false);
@@ -268,23 +310,11 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		
 		JSplitPane splitLugar = new JSplitPane();
-		splitLugar.setDividerSize(0);
-		splitLugar.setBounds(802, 592, 219, 30);
-		frame.getContentPane().add(splitLugar);
-		
-		JButton btnModificarLugar = new JButton("Modificar Lugar");
-		btnModificarLugar.setFont(new Font("SansSerif", Font.PLAIN, 11));
-		btnModificarLugar.setEnabled(false);
-		splitLugar.setLeftComponent(btnModificarLugar);
-		
-		JButton btnAgregarLugar = new JButton("Agregar Lugar");
-		btnAgregarLugar.setFont(new Font("SansSerif", Font.PLAIN, 11));
-		splitLugar.setRightComponent(btnAgregarLugar);
 		
 		JSplitPane splitCancelarConfirmar = new JSplitPane();
 		splitCancelarConfirmar.setDividerSize(0);
-		splitCancelarConfirmar.setBounds(1050, 650, 208, 25);
-		frame.getContentPane().add(splitCancelarConfirmar);
+		splitCancelarConfirmar.setBounds(1026, 684, 232, 30);
+		add(splitCancelarConfirmar);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setEnabled(false);
@@ -359,7 +389,6 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener( a -> {
-//			new MainApplication().setVisible(true);
 			System.exit(0);
 		});
 		splitCancelarConfirmar.setRightComponent(btnConfirmar);
@@ -368,8 +397,8 @@ public class PanelAltaCompetencia extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(new Color(204, 204, 204));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(802, 11, 456, 581);
-		frame.getContentPane().add(scrollPane);
+		scrollPane.setBounds(802, 11, 456, 562);
+		add(scrollPane);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -408,8 +437,8 @@ public class PanelAltaCompetencia extends JPanel {
 		scrollPane.setViewportView(table);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 429, 768, 193);
-		frame.getContentPane().add(scrollPane_1);
+		scrollPane_1.setBounds(10, 429, 768, 186);
+		add(scrollPane_1);
 		
 		JTextArea txtReglamento = new JTextArea();
 		txtReglamento.setMaximumSize(new Dimension(100, 100));
@@ -420,13 +449,27 @@ public class PanelAltaCompetencia extends JPanel {
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.BLACK);
 		separator.setBounds(10, 206, 768, 14);
-		frame.getContentPane().add(separator);
+		add(separator);
 
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 362, 768, 14);
-		frame.getContentPane().add(separator_1);
+		add(separator_1);
 		
-
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setDividerSize(0);
+		splitPane.setBounds(802, 585, 232, 30);
+		add(splitPane);
+		
+		JButton btnModificarLugar = new JButton("Modificar Lugar");
+		splitPane.setLeftComponent(btnModificarLugar);
+		
+		JButton btnAgregarLugar = new JButton("Agregar Lugar");
+		splitPane.setRightComponent(btnAgregarLugar);
+		btnAgregarLugar.addActionListener( a -> {
+			dialogAltaLugar = new DialogAltaLugar();
+		});
+		
+		
 	}
 }
