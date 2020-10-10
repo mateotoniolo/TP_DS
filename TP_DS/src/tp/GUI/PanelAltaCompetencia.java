@@ -3,20 +3,6 @@ package tp.GUI;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import java.awt.Component;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.ComponentOrientation;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import java.awt.FocusTraversalPolicy;
-
-
-
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
@@ -28,11 +14,7 @@ import javax.swing.JTable;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import java.awt.Font;
-import java.awt.Frame;
-
 import javax.swing.table.DefaultTableModel;
-
-
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -41,31 +23,13 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import java.awt.Dimension;
 import javax.swing.DefaultComboBoxModel;
 
-import javax.swing.ImageIcon;
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import tp.DAO.DataBase;
-import tp.DAO.DeporteDAO;
-import tp.GUI.PanelAltaCompetencia.Modalidad;
-import javax.swing.SwingConstants;
-import javax.swing.JToggleButton;
-import java.awt.Canvas;
-import javax.swing.JInternalFrame;
-
 import javax.swing.JSeparator;
-import java.awt.CardLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 public class PanelAltaCompetencia extends JPanel {
 	
 	public enum Modalidad { LIGA, ELIMINACIONSIMPLE, ELIMINACIONDOBLE };
 
-	private JFrame frame;
+
 	private JTextField txtNombre;
 	private JTextField txtCantidadSets;
 	private JTextField txtTantosAusencia;
@@ -84,11 +48,11 @@ public class PanelAltaCompetencia extends JPanel {
 	private boolean ingresoCantidadTantos;
 	private DialogAltaLugar dialogAltaLugar;
 
-	public PanelAltaCompetencia(JFrame frame) {
-		initialize(frame);
+	public PanelAltaCompetencia(MainApplication m) {
+		initialize(m);
 	}
 
-	private void initialize(JFrame frame) {
+	private void initialize(MainApplication m) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -102,7 +66,7 @@ public class PanelAltaCompetencia extends JPanel {
 		}
 		
 		setBackground(new Color(153, 204, 255));
-		frame.setTitle("ALTA COMPETENCIA");
+		m.setTitle("ALTA COMPETENCIA");
 		setBounds(100, 50, 1280, 720);
 		setLayout(null);
 
@@ -165,11 +129,8 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuación *");
 		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
-
-		lblFormaPuntuacion.setBounds(10, 224, 183, 30);
-		add(lblFormaPuntuacion);
 		lblFormaPuntuacion.setBounds(10, 224, 190, 30);
-		frame.getContentPane().add(lblFormaPuntuacion);
+		add(lblFormaPuntuacion);
 
 		
 		JLabel lblCantidadSets = new JLabel("Cantidad de Sets ");
@@ -186,11 +147,9 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia *");
 		lblCantidadTantos.setToolTipText("");
 		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
-
-		lblCantidadTantos.setBounds(291, 309, 175, 26);
+		lblCantidadTantos.setBounds(291, 309, 190, 26);
 		add(lblCantidadTantos);
-		lblCantidadTantos.setBounds(291, 309, 185, 26);
-		frame.getContentPane().add(lblCantidadTantos);
+
 		
 		txtTantosAusencia = new JTextField();
 		txtTantosAusencia.setEnabled(false);
@@ -216,10 +175,9 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		JLabel lblPuntosEmpate = new JLabel("Puntos por Empate");
 		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPuntosEmpate.setBounds(560, 155, 152, 24);
-		add(lblPuntosEmpate);
 		lblPuntosEmpate.setBounds(560, 155, 165, 24);
-		frame.getContentPane().add(lblPuntosEmpate);
+		add(lblPuntosEmpate);
+		
 		
 		txtPuntosEmpate = new JTextField();
 		txtPuntosEmpate.setEnabled(false);
@@ -389,7 +347,7 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener( a -> {
-			System.exit(0);
+			m.cambiarPanel(new PanelHome(m));
 		});
 		splitCancelarConfirmar.setRightComponent(btnConfirmar);
 		splitCancelarConfirmar.setLeftComponent(btnCancelar);
