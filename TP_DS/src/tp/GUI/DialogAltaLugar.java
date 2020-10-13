@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
 
+import tp.DAO.DeporteDAO;
 import tp.DAO.LugarDAO;
 
 import java.awt.Color;
@@ -24,23 +25,50 @@ public class DialogAltaLugar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
+	JComboBox<String> boxLugar = new JComboBox<String>();
+	
+	public class iniciar implements Runnable {
+		PanelAltaCompetencia  panel= null;
+		public iniciar(PanelAltaCompetencia p) {
+			panel = p;
+		}
+		@Override
+		public void run() {
+			initialize(panel);			
+		}
+		
+	}
+	public class cargar implements Runnable {
+		PanelAltaCompetencia  panel= null;
+		JComboBox box = null;
+		public cargar(JComboBox cb,PanelAltaCompetencia p) {
+			panel = p;
+			box = cb;
+		}
+		@Override
+		public void run() {
+			cargar(boxLugar,panel);		
+		}
+		
+	}
 
-
-	public DialogAltaLugar() {
+	public DialogAltaLugar(PanelAltaCompetencia p) {
 		try {
 //			DialogAltaLugar dialog = new DialogAltaLugar();
 			this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			this.setVisible(true);
-			initialize();
+			//Un Thread crea el Dialog mientras que el otro busca los lugares disponible para ese usuario y ese deporte
+			new Thread (new iniciar(p), "inicializar").start();
+			new Thread (new cargar(boxLugar,p), "inicializar").start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 		
-	public void initialize() {
+	public void initialize(PanelAltaCompetencia p) {
 		setTitle("Nuevo Lugar");
 		getContentPane().setBackground(new Color(153, 204, 255));
-		setBounds(100, 100, 450, 162);
+		setBounds(550, 350, 450, 162);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 434, 123);
 		contentPanel.setBackground(new Color(153, 204, 255));
@@ -54,16 +82,9 @@ public class DialogAltaLugar extends JDialog {
 		contentPanel.add(lblLugar);
 		lblLugar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JComboBox<String> boxLugar = new JComboBox<String>();
+		
 		boxLugar.setBounds(6, 35, 215, 26);
 		contentPanel.add(boxLugar);
-		
-//		lugares
-//		List<String> lugares = LugarDAO.getLugares();
-//		System.out.println(lugares);
-//		for(String l1 : lugares) {
-//			boxLugar.addItem(l1);
-//		}
 		
 		//		ingresoDeporte = false;
 		//		boxDeporte.addActionListener( a -> {
@@ -95,11 +116,21 @@ public class DialogAltaLugar extends JDialog {
 				textField.setBounds(233, 34, 195, 28);
 				contentPanel.add(textField);
 				textField.setColumns(10);
-		{
+		
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBounds(0, 0, 0, 0);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
+		
+			
+			
+	}
+	
+	public void cargar(JComboBox b, PanelAltaCompetencia p) {
+		DeporteDAO deporteDao = new DeporteDAO();
+		LugarDAO lugarDao = new LugarDAO();
+		for(String lugar : lugarDao.getNombreLugaresByDeporteUsuario(deporteDao.getIDbyNombre(p.getDeporteCompetencia()), p.getId_usuario())) {
+			b.addItem(lugar);
 		}
 		
 	}

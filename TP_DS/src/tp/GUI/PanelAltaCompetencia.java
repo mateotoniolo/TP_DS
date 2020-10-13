@@ -15,6 +15,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.table.DefaultTableModel;
+
+import tp.DAO.DeporteDAO;
+
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -29,7 +32,14 @@ public class PanelAltaCompetencia extends JPanel {
 	
 	public enum Modalidad { LIGA, ELIMINACIONSIMPLE, ELIMINACIONDOBLE };
 
-
+	//Aqui se definen los atributos de la competencia
+	private String deporteCompetencia;
+	private Integer id_deporte;
+	private Modalidad modalidadCompetencia;
+	private String nombreCompetencia;
+	private Integer id_usuario = 6;
+	
+	//Aqui se definen los componentes del Panel
 	private JTextField txtNombre;
 	private JTextField txtCantidadSets;
 	private JTextField txtTantosAusencia;
@@ -37,11 +47,8 @@ public class PanelAltaCompetencia extends JPanel {
 	private JTextField txtPuntosEmpate;
 	private JTextField txtPuntosPresentarse;
 	private JTable table;
-	private Modalidad modalidadCompetencia;
-	private String nombreCompetencia;
 	private boolean ingresoNombre;
 	private boolean ingresoDeporte;
-	private String deporteCompetencia;
 	private boolean ingresoModalidad;
 	private boolean ingresoFormaPuntuacion;
 	private boolean ingresoCantidadSets;
@@ -93,20 +100,22 @@ public class PanelAltaCompetencia extends JPanel {
 		lblDeporte.setBounds(10, 69, 115, 25);
 		add(lblDeporte);
 		
-		JComboBox boxDeporte = new JComboBox();
-//		DataBase.leerJson();
-//		DeporteDAO dd = new DeporteDAO();
-//		boxDeporte.setModel(new DefaultComboBoxModel());
-//		for(String s : dd.getNombres()) {
-//			boxDeporte.addItem(s);
-//		}
-//		boxDeporte.setModel(new DefaultComboBoxModel(new String[] {"", "Basketball", "Football", "Tennis"}));
+		JComboBox<String> boxDeporte = new JComboBox<String>();
+		DeporteDAO deporteDao = new DeporteDAO();
+		boxDeporte.setModel(new DefaultComboBoxModel<String>()); //Pide a la BD todos los nombre de los deportes y los asigna al ComboBox
+		boxDeporte.addItem("----Seleccionar----");
+		for(String s : deporteDao.getNombres()) {
+			boxDeporte.addItem(s);
+		}
 		boxDeporte.setBounds(10, 96, 232, 30);
 		add(boxDeporte);
 		ingresoDeporte = false;
-//		boxDeporte.addActionListener( a -> {
-//			deporteCompetencia = boxDeporte.getSelectedItem();
-//		});
+		boxDeporte.addActionListener( a -> {
+			deporteCompetencia = (String) boxDeporte.getSelectedItem();
+//			System.out.println(deporteDao.getIDbyNombre(deporteCompetencia));
+			//recupera el id del deporte pasando el nombre comom parametro
+		});
+		
 		
 		JLabel lblModalidad = new JLabel("Modalidad *");
 		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -425,9 +434,33 @@ public class PanelAltaCompetencia extends JPanel {
 		JButton btnAgregarLugar = new JButton("Agregar Lugar");
 		splitPane.setRightComponent(btnAgregarLugar);
 		btnAgregarLugar.addActionListener( a -> {
-			dialogAltaLugar = new DialogAltaLugar();
+			dialogAltaLugar = new DialogAltaLugar(this);
 		});
 		
 		
+	}
+
+	public String getDeporteCompetencia() {
+		return deporteCompetencia;
+	}
+
+	public void setDeporteCompetencia(String deporteCompetencia) {
+		this.deporteCompetencia = deporteCompetencia;
+	}
+
+	public Integer getId_deporte() {
+		return id_deporte;
+	}
+
+	public void setId_deporte(Integer id_deporte) {
+		this.id_deporte = id_deporte;
+	}
+
+	public Integer getId_usuario() {
+		return id_usuario;
+	}
+
+	public void setId_usuario(Integer id_usuario) {
+		this.id_usuario = id_usuario;
 	}
 }

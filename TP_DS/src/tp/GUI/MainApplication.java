@@ -19,7 +19,7 @@ import java.awt.Toolkit;
 public class MainApplication extends JFrame {
 
 	JPanel actual = new PanelHome(this);
-
+	JPanel aux = null;
 	public MainApplication() {
 		initialize();
 	}

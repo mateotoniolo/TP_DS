@@ -41,6 +41,31 @@ public class DeporteDAO {
 		return m;
 	}
 	
+	public Integer getIDbyNombre(String nombre) {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		Integer m = null;
+		try {
+			pstm = con.prepareStatement(
+					"SELECT id_deporte FROM dsi20203c.Deporte WHERE nombre = ?");
+			pstm.setString(1,nombre);
+			rs = pstm.executeQuery();
+			if(rs.next()) {
+				return  Integer.valueOf(rs.getInt(1));
+			}
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarRs(rs);
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return m;
+	}
+	
 	
 	
 }
