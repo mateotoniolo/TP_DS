@@ -17,13 +17,14 @@ import javax.swing.border.EmptyBorder;
 
 import tp.DAO.DeporteDAO;
 import tp.DAO.LugarDAO;
+import tp.clases.Lugar;
 
 import java.awt.Color;
 import javax.swing.JTextField;
 
 public class DialogAltaLugar extends JDialog {
 
-	private final JPanel contentPanel = new JPanel();
+	public final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	JComboBox<String> boxLugar = new JComboBox<String>();
 	
@@ -59,7 +60,7 @@ public class DialogAltaLugar extends JDialog {
 			this.setVisible(true);
 			//Un Thread crea el Dialog mientras que el otro busca los lugares disponible para ese usuario y ese deporte
 			new Thread (new iniciar(p), "inicializar").start();
-			new Thread (new cargar(boxLugar,p), "inicializar").start();
+			new Thread (new cargar(boxLugar,p), "cargar").start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,11 +127,12 @@ public class DialogAltaLugar extends JDialog {
 			
 	}
 	
-	public void cargar(JComboBox b, PanelAltaCompetencia p) {
+	public void cargar(JComboBox<String> b, PanelAltaCompetencia p) {
 		DeporteDAO deporteDao = new DeporteDAO();
-		LugarDAO lugarDao = new LugarDAO();
-		for(String lugar : lugarDao.getNombreLugaresByDeporteUsuario(deporteDao.getIDbyNombre(p.getDeporteCompetencia()), p.getId_usuario())) {
-			b.addItem(lugar);
+//		LugarDAO lugarDao = new LugarDAO();
+		List<Lugar> lugares = LugarDAO.getLugarByDeporteUsuario(deporteDao.getIDbyNombre(p.getDeporteCompetencia()), p.getId_usuario());
+		for(Lugar lugar : lugares) {
+			b.addItem(lugar.getNombre());
 		}
 		
 	}

@@ -3,8 +3,12 @@ package tp.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import tp.clases.Lugar;
+
 
 public class LugarDAO {
 	
@@ -31,11 +35,11 @@ public class LugarDAO {
 		return places;
 	}
 	
-	public static List<String> getNombreLugaresByDeporteUsuario(Integer id_deporte, Integer id_usuario) {
+	public static List<Lugar> getLugarByDeporteUsuario(Integer id_deporte, Integer id_usuario) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		List<String> places = new ArrayList<String>();
+		List<Lugar> places = new ArrayList<Lugar>();
 		LugarDAO lugarDao = new LugarDAO();
 		try {
 			pstm = con.prepareStatement(
@@ -44,7 +48,7 @@ public class LugarDAO {
 			pstm.setInt(2, id_usuario);
 			rs = pstm.executeQuery();
 			while(rs.next()) {
-				places.add(lugarDao.getLugaresByID(Integer.valueOf(rs.getString(1))));
+				places.add(lugarDao.getLugarByID(Integer.valueOf(rs.getString(1))));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -57,18 +61,19 @@ public class LugarDAO {
 		return places;
 	}
 	
-	public static String getLugaresByID(Integer id_Lugar) {
+	public static Lugar getLugarByID(Integer id_Lugar) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
+		Lugar l = null;
 		
 		try {
 			pstm = con.prepareStatement(
-					"SELECT nombre FROM dsi20203c.Lugar WHERE codigo = ?");
+					"SELECT * FROM dsi20203c.Lugar WHERE codigo = ?");
 			pstm.setInt(1, id_Lugar);
 			rs = pstm.executeQuery();
-			if(rs.next()) {
-				return  rs.getString(1);
+			while(rs.next()) {
+				l=parsearRS(rs);
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -78,8 +83,14 @@ public class LugarDAO {
 			DataBase.cerrarPstm(pstm);
 			DataBase.cerrarConexion(con);
 		}
-		return null;
+		return l;
 	}
 	
+	static Lugar parsearRS(ResultSet rs) throws SQLException {
+		
+		return new Lugar(Integer.valueOf(rs.getInt(1)),
+				rs.getString(2),
+				rs.getString(3));
+	}
 	
 }

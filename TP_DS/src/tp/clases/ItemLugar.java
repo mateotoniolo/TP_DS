@@ -1,7 +1,7 @@
 package tp.clases;
 
 public class ItemLugar {
-	private Integer codigo; // id_lugar o Objeto Lugar?
+	private Lugar Lugar; // id_lugar o Objeto Lugar?
 	private Integer competencia; // id_competencia o Objeto Competencia?
 	private Integer cantidadEncuentros;
 	private Boolean disponibilidad;
@@ -12,20 +12,23 @@ public class ItemLugar {
 	}
 	
 	// constructor
-	public ItemLugar(Integer codigo, Integer competencia, Integer cantidadEncuentros, Boolean disponibilidad) {
-		this.setCodigo(codigo);
+	public ItemLugar(Lugar lugar, Integer competencia, Integer cantidadEncuentros, Boolean disponibilidad) {
+		this.setLugar(lugar);
 		this.setCompetencia(competencia);
 		this.setCantidadEncuentros(cantidadEncuentros);
 		this.setDisponibilidad(disponibilidad);
 	}
 
 	// Getters y Setters
-	public Integer getCodigo() {
-		return codigo;
+	public String getLugar() {
+		return Lugar.getNombre();
 	}
 
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+	public void setLugar(Lugar lugar) {
+		this.Lugar = lugar;
+	}
+	public Integer getCodigo() {
+		return this.Lugar.getId();
 	}
 
 	public Integer getCompetencia() {

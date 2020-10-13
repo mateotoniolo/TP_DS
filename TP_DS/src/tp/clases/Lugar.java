@@ -12,9 +12,9 @@ public class Lugar {
 	}
 	
 	public Lugar(Integer codigo, String nombre, String descripcion) {
-		this.setId(codigo);
-		this.setNombre(nombre);
-		this.setDescripcion(descripcion);
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
 	}
 
 	// Getters y Setters

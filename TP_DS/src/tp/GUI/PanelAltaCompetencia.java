@@ -368,39 +368,41 @@ public class PanelAltaCompetencia extends JPanel {
 		add(scrollPane);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-			},
-			new String[] {
-				"Lugar", "Disponibilidad"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Object.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
+//		table.setModel(new DefaultTableModel(
+//			new Object[][] {
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//				{null, null},
+//			},
+//			new String[] {
+//				"Lugar", "Disponibilidad"
+//			}
+//		) {
+//			Class[] columnTypes = new Class[] {
+//				Object.class, String.class
+//			};
+//			public Class getColumnClass(int columnIndex) {
+//				return columnTypes[columnIndex];
+//			}
+//		});
+		table.setModel(tableModel);	
 		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		scrollPane.setViewportView(table);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
