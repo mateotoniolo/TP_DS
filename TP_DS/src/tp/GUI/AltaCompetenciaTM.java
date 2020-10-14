@@ -20,6 +20,10 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 		
 	}
 	
+	public void addItemTM(ItemLugar item) {
+		this.data.add(item);
+	}
+	
 	
 	@Override
 	public int getRowCount() {
@@ -58,5 +62,10 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return false;
+	}
+	
+	public void vaciarTabla() {
+		this.data = null;
+		this.data = new ArrayList<ItemLugar>();
 	}
 }

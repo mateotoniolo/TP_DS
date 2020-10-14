@@ -17,6 +17,7 @@ import java.awt.Font;
 import javax.swing.table.DefaultTableModel;
 
 import tp.DAO.DeporteDAO;
+import tp.clases.ItemLugar;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -54,6 +55,8 @@ public class PanelAltaCompetencia extends JPanel {
 	private boolean ingresoCantidadSets;
 	private boolean ingresoCantidadTantos;
 	private DialogAltaLugar dialogAltaLugar;
+	//Define el Table model
+	AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
 
 	public PanelAltaCompetencia(MainApplication m) {
 		initialize(m);
@@ -112,8 +115,8 @@ public class PanelAltaCompetencia extends JPanel {
 		ingresoDeporte = false;
 		boxDeporte.addActionListener( a -> {
 			deporteCompetencia = (String) boxDeporte.getSelectedItem();
-//			System.out.println(deporteDao.getIDbyNombre(deporteCompetencia));
-			//recupera el id del deporte pasando el nombre comom parametro
+			this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vacía la tabla
+			this.table.updateUI();
 		});
 		
 		
@@ -367,38 +370,8 @@ public class PanelAltaCompetencia extends JPanel {
 		scrollPane.setBounds(802, 11, 456, 562);
 		add(scrollPane);
 		
-		table = new JTable();
-		AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
-//		table.setModel(new DefaultTableModel(
-//			new Object[][] {
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//				{null, null},
-//			},
-//			new String[] {
-//				"Lugar", "Disponibilidad"
-//			}
-//		) {
-//			Class[] columnTypes = new Class[] {
-//				Object.class, String.class
-//			};
-//			public Class getColumnClass(int columnIndex) {
-//				return columnTypes[columnIndex];
-//			}
-//		});
-		table.setModel(tableModel);	
+		table = new JTable();	
+		table.setModel(tableModel);	//tableModel se define arriba en los atributos
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -464,5 +437,10 @@ public class PanelAltaCompetencia extends JPanel {
 
 	public void setId_usuario(Integer id_usuario) {
 		this.id_usuario = id_usuario;
+	}
+	
+	public void addItemTM(ItemLugar item) { // este metodo agrega el item para la tabla 
+		this.tableModel.addItemTM(item);
+		this.table.updateUI();
 	}
 }

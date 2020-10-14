@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -14,9 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import tp.DAO.DeporteDAO;
 import tp.DAO.LugarDAO;
+import tp.clases.ItemLugar;
 import tp.clases.Lugar;
 
 import java.awt.Color;
@@ -27,6 +31,7 @@ public class DialogAltaLugar extends JDialog {
 	public final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	JComboBox<String> boxLugar = new JComboBox<String>();
+	List<Lugar> lugares = new ArrayList<Lugar>();
 	
 	public class iniciar implements Runnable {
 		PanelAltaCompetencia  panel= null;
@@ -77,6 +82,12 @@ public class DialogAltaLugar extends JDialog {
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
+		textField = new JTextField();
+		textField.setBounds(233, 34, 195, 28);
+		textField.setBorder(new LineBorder(Color.BLACK, 2));
+		contentPanel.add(textField);
+		textField.setColumns(10);
+		
 		
 		JLabel lblLugar = new JLabel("Disponibilidad *");
 		lblLugar.setBounds(233, 16, 93, 17);
@@ -86,11 +97,6 @@ public class DialogAltaLugar extends JDialog {
 		
 		boxLugar.setBounds(6, 35, 215, 26);
 		contentPanel.add(boxLugar);
-		
-		//		ingresoDeporte = false;
-		//		boxDeporte.addActionListener( a -> {
-		//			deporteCompetencia = (String) boxDeporte.getSelectedItem();
-		//		});
 		
 		JLabel lblDisponibilidad = new JLabel("Lugar *");
 		lblDisponibilidad.setBounds(6, 16, 47, 17);
@@ -104,19 +110,24 @@ public class DialogAltaLugar extends JDialog {
 				
 				JButton btnConfirmar = new JButton("Confirmar");
 				btnConfirmar.setBackground(new Color(102, 102, 255));
+				btnConfirmar.addActionListener(a -> {				
+					ItemLugar item = new ItemLugar();
+					Optional<Lugar> optional = lugares.stream().filter(m -> m.getNombre().equals(this.boxLugar.getSelectedItem())).findFirst();
+					item.setLugar(optional.get());
+					item.setCantidadEncuentros(Integer.valueOf(this.textField.getText()));
+					p.addItemTM(item);
+					this.dispose();
+					//Crea el item con los datos ingresados
+				});
 				
 				JButton btnCancelar = new JButton("Cancelar");
 				btnCancelar.addActionListener( a -> {
-//			new MainApplication().setVisible(true);
+
 					System.exit(0);
 				});
 				splitCancelarConfirmar.setRightComponent(btnConfirmar);
 				splitCancelarConfirmar.setLeftComponent(btnCancelar);
 				
-				textField = new JTextField();
-				textField.setBounds(233, 34, 195, 28);
-				contentPanel.add(textField);
-				textField.setColumns(10);
 		
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBounds(0, 0, 0, 0);
@@ -129,8 +140,7 @@ public class DialogAltaLugar extends JDialog {
 	
 	public void cargar(JComboBox<String> b, PanelAltaCompetencia p) {
 		DeporteDAO deporteDao = new DeporteDAO();
-//		LugarDAO lugarDao = new LugarDAO();
-		List<Lugar> lugares = LugarDAO.getLugarByDeporteUsuario(deporteDao.getIDbyNombre(p.getDeporteCompetencia()), p.getId_usuario());
+		lugares = LugarDAO.getLugarByDeporteUsuario(deporteDao.getIDbyNombre(p.getDeporteCompetencia()), p.getId_usuario());
 		for(Lugar lugar : lugares) {
 			b.addItem(lugar.getNombre());
 		}
