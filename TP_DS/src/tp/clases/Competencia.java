@@ -21,7 +21,7 @@ public abstract class Competencia {
 	private EstadoCompetencia estado;
 	private Optional cantSets;
 	private ModalidadDePuntuacion puntuacion;
-	private Double tantosXAusencia;
+	private Integer tantosXAusencia;
 	private Integer id_administrador;
 	private Integer id_deporte;
 	
@@ -142,12 +142,12 @@ public abstract class Competencia {
 	}
 	
 	
-	public Double getTantosXAusencia() {
+	public Integer getTantosXAusencia() {
 		return tantosXAusencia;
 	}
 
 	
-	public void setTantosXAusencia(Double tantosXAusencia) {
+	public void setTantosXAusencia(Integer tantosXAusencia) {
 		this.tantosXAusencia = tantosXAusencia;
 	}
 

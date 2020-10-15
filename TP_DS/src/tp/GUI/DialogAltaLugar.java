@@ -122,8 +122,7 @@ public class DialogAltaLugar extends JDialog {
 				
 				JButton btnCancelar = new JButton("Cancelar");
 				btnCancelar.addActionListener( a -> {
-
-					System.exit(0);
+					dispose();
 				});
 				splitCancelarConfirmar.setRightComponent(btnConfirmar);
 				splitCancelarConfirmar.setLeftComponent(btnCancelar);
