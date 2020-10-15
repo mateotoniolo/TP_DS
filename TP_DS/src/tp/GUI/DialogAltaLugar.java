@@ -3,6 +3,7 @@ package tp.GUI;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,8 @@ public class DialogAltaLugar extends JDialog {
 	private JTextField textField;
 	JComboBox<String> boxLugar = new JComboBox<String>();
 	List<Lugar> lugares = new ArrayList<Lugar>();
+	
+	private Integer disponibilidad;
 	
 	public class iniciar implements Runnable {
 		PanelAltaCompetencia  panel= null;
@@ -94,14 +97,29 @@ public class DialogAltaLugar extends JDialog {
 		contentPanel.add(lblLugar);
 		lblLugar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		
 		boxLugar.setBounds(6, 35, 215, 26);
 		contentPanel.add(boxLugar);
 		
 		JLabel lblDisponibilidad = new JLabel("Lugar *");
 		lblDisponibilidad.setBounds(6, 16, 47, 17);
 		contentPanel.add(lblDisponibilidad);
-		lblDisponibilidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDisponibilidad.setFont(new Font("Tahoma", Font.PLAIN, 14));	
+		
+		JTextField txtDisponibilidad = new JTextField(20);
+		txtDisponibilidad.setBounds(6, 35, 215, 26);
+		contentPanel.add(txtDisponibilidad);
+		
+		txtDisponibilidad.addKeyListener(new java.awt.event.KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Character c = e.getKeyChar();
+				if(!c.isDigit(c)) {
+					txtDisponibilidad.setText(txtDisponibilidad.getText().substring(0, txtDisponibilidad.getText().length()-1));
+				} else disponibilidad = Integer.parseInt(txtDisponibilidad.getText());
+			} 
+		});
+		
 				
 				JSplitPane splitCancelarConfirmar = new JSplitPane();
 				splitCancelarConfirmar.setBounds(248, 87, 180, 30);

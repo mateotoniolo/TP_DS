@@ -12,10 +12,23 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class PanelHome extends JPanel {
 
 	public PanelHome(MainApplication m) {
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		this.setLayout(new BorderLayout(0, 0));
 		this.setLayout(new BorderLayout(0, 0));
