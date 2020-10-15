@@ -14,10 +14,13 @@ import javax.swing.JTable;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.util.Optional;
+
 import javax.swing.table.DefaultTableModel;
 
 import tp.DAO.DeporteDAO;
 import tp.clases.ItemLugar;
+import tp.enums.ModalidadDePuntuacion;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -39,6 +42,10 @@ public class PanelAltaCompetencia extends JPanel {
 	private Modalidad modalidadCompetencia;
 	private String nombreCompetencia;
 	private Integer id_usuario = 6;
+	private String Reglamento;
+	private  Optional<Integer> cantSets = null;
+	private ModalidadDePuntuacion modalidadPuntuacion;
+	private Double tantosXAusencia;
 	
 	//Aqui se definen los componentes del Panel
 	private JTextField txtNombre;
@@ -54,7 +61,7 @@ public class PanelAltaCompetencia extends JPanel {
 	private boolean ingresoFormaPuntuacion;
 	private boolean ingresoCantidadSets;
 	private boolean ingresoCantidadTantos;
-	private DialogAltaLugar dialogAltaLugar;
+
 	//Define el Table model
 	AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
 
@@ -86,7 +93,7 @@ public class PanelAltaCompetencia extends JPanel {
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		add(lblNombre);
 		
-		
+		//Campo de texto de nombre
 		txtNombre = new JTextField();
 		txtNombre.setMinimumSize(new Dimension(15, 28));
 		txtNombre.setPreferredSize(new Dimension(15, 30));
@@ -102,7 +109,7 @@ public class PanelAltaCompetencia extends JPanel {
 		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDeporte.setBounds(10, 69, 115, 25);
 		add(lblDeporte);
-		
+		//JBox de deporte
 		JComboBox<String> boxDeporte = new JComboBox<String>();
 		DeporteDAO deporteDao = new DeporteDAO();
 		boxDeporte.setModel(new DefaultComboBoxModel<String>()); //Pide a la BD todos los nombre de los deportes y los asigna al ComboBox
@@ -124,7 +131,7 @@ public class PanelAltaCompetencia extends JPanel {
 		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblModalidad.setBounds(254, 69, 115, 22);
 		add(lblModalidad);
-		
+		//JBox modalidad
 		JComboBox<Modalidad> boxModalidad = new JComboBox<Modalidad>();
 		boxModalidad.setModel(new DefaultComboBoxModel(new String[] {"", "Liga", "Eliminacion Simple", "Eliminacion Doble"}));
 		boxModalidad.setBounds(254, 96, 270, 30);
@@ -149,7 +156,7 @@ public class PanelAltaCompetencia extends JPanel {
 		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblCantidadSets.setBounds(10, 307, 152, 30);
 		add(lblCantidadSets);
-		
+		//Indica cantidad de sets
 		txtCantidadSets = new JTextField();
 		txtCantidadSets.setEnabled(false);
 		txtCantidadSets.setBounds(174, 311, 40, 26);
@@ -223,16 +230,18 @@ public class PanelAltaCompetencia extends JPanel {
 		add(txtPuntosPresentarse);
 		txtPuntosPresentarse.setColumns(10);
 		
-		boxModalidad.addActionListener( a -> {
-			if(boxModalidad.getSelectedItem()=="Liga") {
+		boxModalidad.addActionListener( a -> {// habilita las entradas de puntuacion
+			if(boxModalidad.getSelectedItem()=="Liga" ) {
 				txtPuntosPartidoGanado.setEnabled(true);
 				txtPuntosPresentarse.setEnabled(true);
 				rdbtnEmpate.setEnabled(true);
+				this.txtTantosAusencia.setEnabled(true);
 			} else {
 				txtPuntosPartidoGanado.setEnabled(false);
 				txtPuntosPartidoGanado.setText("");
 				txtPuntosPresentarse.setEnabled(false);
 				txtPuntosPresentarse.setText("");
+				this.txtTantosAusencia.setEnabled(false);
 				rdbtnEmpate.setEnabled(false);
 			}
 		});
@@ -256,14 +265,12 @@ public class PanelAltaCompetencia extends JPanel {
 			rdbtnPuntuacion.setSelected(false);
 			rdbtnPuntuacionFinal.setSelected(false);
 			txtCantidadSets.setEnabled(true);
-			txtTantosAusencia.setEnabled(false);
 			txtTantosAusencia.setText("");
 		});
 		
 		rdbtnPuntuacion.addActionListener( a -> {
 			rdbtnSets.setSelected(false);
 			rdbtnPuntuacionFinal.setSelected(false);
-			txtTantosAusencia.setEnabled(true);
 			txtCantidadSets.setEnabled(false);
 			txtCantidadSets.setText("");
 		});
@@ -271,9 +278,7 @@ public class PanelAltaCompetencia extends JPanel {
 		rdbtnPuntuacionFinal.addActionListener( a -> {
 			rdbtnSets.setSelected(false);
 			rdbtnPuntuacion.setSelected(false);
-			txtTantosAusencia.setEnabled(true);
 			txtCantidadSets.setEnabled(false);
-			txtTantosAusencia.setEnabled(false);
 			txtCantidadSets.setText("");
 			txtTantosAusencia.setText("");
 		});
@@ -409,7 +414,7 @@ public class PanelAltaCompetencia extends JPanel {
 		JButton btnAgregarLugar = new JButton("Agregar Lugar");
 		splitPane.setRightComponent(btnAgregarLugar);
 		btnAgregarLugar.addActionListener( a -> {
-			dialogAltaLugar = new DialogAltaLugar(this);
+			DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
 		});
 		
 		
