@@ -147,8 +147,8 @@ public abstract class Competencia {
 	}
 
 	
-	public void setTantosXAusencia(Double tantosXAusencia) {
-		this.tantosXAusencia = tantosXAusencia;
+	public void setTantosXAusencia(Double tantosXAusencia2) {
+		this.tantosXAusencia = tantosXAusencia2;
 	}
 
 	public void setIdAdministrador(Integer id) {

@@ -2,6 +2,7 @@ package tp.GUI;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
@@ -14,6 +15,8 @@ import javax.swing.JTable;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Optional;
 
 import javax.swing.table.DefaultTableModel;
@@ -54,7 +57,8 @@ public class PanelAltaCompetencia extends JPanel {
 	private JTextField txtPuntosPartidoGanado;
 	private JTextField txtPuntosEmpate;
 	private JTextField txtPuntosPresentarse;
-	private JTable table;
+	private JButton btnModificarLugar;
+	private JTable tableLugares;
 	private boolean ingresoNombre;
 	private boolean ingresoDeporte;
 	private boolean ingresoModalidad;
@@ -100,10 +104,15 @@ public class PanelAltaCompetencia extends JPanel {
 		txtNombre.setBounds(10, 31, 514, 30);
 		add(txtNombre);
 		txtNombre.setColumns(10);
-		txtNombre.addActionListener( a -> {
-			nombreCompetencia = txtNombre.getText(); 
+//		txtNombre.addActionListener( a -> {
+//			nombreCompetencia = txtNombre.getText(); 
+//		});
+		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				nombreEventoKeyTyped(e);
+			}
 		});
-
 		
 		JLabel lblDeporte = new JLabel("Deporte *");
 		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -123,7 +132,8 @@ public class PanelAltaCompetencia extends JPanel {
 		boxDeporte.addActionListener( a -> {
 			deporteCompetencia = (String) boxDeporte.getSelectedItem();
 			this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vacía la tabla
-			this.table.updateUI();
+			this.tableLugares.updateUI();
+			btnModificarLugar.setEnabled(false);
 		});
 		
 		
@@ -162,12 +172,6 @@ public class PanelAltaCompetencia extends JPanel {
 		txtCantidadSets.setBounds(174, 311, 40, 26);
 		add(txtCantidadSets);
 		txtCantidadSets.setColumns(10);
-		
-		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia *");
-		lblCantidadTantos.setToolTipText("");
-		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCantidadTantos.setBounds(291, 309, 190, 26);
-		add(lblCantidadTantos);
 
 		
 		txtTantosAusencia = new JTextField();
@@ -192,6 +196,20 @@ public class PanelAltaCompetencia extends JPanel {
 		add(txtPuntosPartidoGanado);
 		txtPuntosPartidoGanado.setColumns(10);
 		
+		//ignora el ingreso de caracteres no numericos
+		txtPuntosPartidoGanado.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Character c = e.getKeyChar();
+				if(!c.isDigit(c)) e.consume();
+//				else
+			}
+
+			public boolean isNumeric(String s) {  
+				return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+			}  
+		});
+		
 		JLabel lblPuntosEmpate = new JLabel("Puntos por Empate");
 		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblPuntosEmpate.setBounds(560, 155, 165, 24);
@@ -203,6 +221,20 @@ public class PanelAltaCompetencia extends JPanel {
 		txtPuntosEmpate.setBounds(724, 156, 40, 26);
 		add(txtPuntosEmpate);
 		txtPuntosEmpate.setColumns(10);
+		
+		//ignora el ingreso de caracteres no numericos
+		txtPuntosEmpate.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Character c = e.getKeyChar();
+				if(!c.isDigit(c)) e.consume();
+//				else 
+			}
+
+			public boolean isNumeric(String s) {  
+				return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+			}  
+		});
 		
 		JRadioButton rdbtnEmpate = new JRadioButton("Empate");
 		rdbtnEmpate.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -229,6 +261,19 @@ public class PanelAltaCompetencia extends JPanel {
 		txtPuntosPresentarse.setBounds(484, 156, 40, 26);
 		add(txtPuntosPresentarse);
 		txtPuntosPresentarse.setColumns(10);
+		
+		//ignora el ingreso de caracteres no numericos
+		txtPuntosPresentarse.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Character c = e.getKeyChar();
+				if(!c.isDigit(c)) e.consume();
+			}
+
+			public boolean isNumeric(String s) {  
+				return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+			}  
+		});
 		
 		boxModalidad.addActionListener( a -> {// habilita las entradas de puntuacion
 			if(boxModalidad.getSelectedItem()=="Liga" ) {
@@ -375,13 +420,13 @@ public class PanelAltaCompetencia extends JPanel {
 		scrollPane.setBounds(802, 11, 456, 562);
 		add(scrollPane);
 		
-		table = new JTable();	
-		table.setModel(tableModel);	//tableModel se define arriba en los atributos
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(25);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(150);
-		scrollPane.setViewportView(table);
+		tableLugares = new JTable();	
+		tableLugares.setModel(tableModel);	//tableModel se define arriba en los atributos
+		tableLugares.getColumnModel().getColumn(0).setResizable(false);
+		tableLugares.getColumnModel().getColumn(0).setPreferredWidth(25);
+		tableLugares.getColumnModel().getColumn(1).setResizable(false);
+		tableLugares.getColumnModel().getColumn(1).setPreferredWidth(150);
+		scrollPane.setViewportView(tableLugares);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 429, 768, 186);
@@ -390,6 +435,12 @@ public class PanelAltaCompetencia extends JPanel {
 		JTextArea txtReglamento = new JTextArea();
 		txtReglamento.setMaximumSize(new Dimension(100, 100));
 		scrollPane_1.setViewportView(txtReglamento);
+		txtReglamento.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				nombreEventoKeyTyped(e);
+			}
+		});
 		
 
 		
@@ -408,11 +459,21 @@ public class PanelAltaCompetencia extends JPanel {
 		splitPane.setBounds(802, 585, 232, 30);
 		add(splitPane);
 		
-		JButton btnModificarLugar = new JButton("Modificar Lugar");
+		btnModificarLugar = new JButton("Modificar Lugar");
+		btnModificarLugar.setEnabled(false);
 		splitPane.setLeftComponent(btnModificarLugar);
+		btnModificarLugar.addActionListener( a -> {
+//			if()
+		});
 		
 		JButton btnAgregarLugar = new JButton("Agregar Lugar");
 		splitPane.setRightComponent(btnAgregarLugar);
+		
+		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia *");
+		lblCantidadTantos.setToolTipText("");
+		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCantidadTantos.setBounds(276, 311, 190, 26);
+		add(lblCantidadTantos);
 		btnAgregarLugar.addActionListener( a -> {
 			DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
 		});
@@ -446,6 +507,17 @@ public class PanelAltaCompetencia extends JPanel {
 	
 	public void addItemTM(ItemLugar item) { // este metodo agrega el item para la tabla 
 		this.tableModel.addItemTM(item);
-		this.table.updateUI();
+		this.tableLugares.updateUI();
 	}
+	
+	private void nombreEventoKeyTyped(KeyEvent e)	{
+		txtNombre.setText(txtNombre.getText().toUpperCase());
+		nombreCompetencia = txtNombre.getText();
+	}
+	
+	private void ingresoIvalido(KeyEvent e, String msg) {
+		JOptionPane.showMessageDialog(null, msg);
+	}
+
+
 }
