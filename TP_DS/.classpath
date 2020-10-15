@@ -6,7 +6,15 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/herna/Desktop/DIED/TP DIED/TPDIED/tp_died/lib/json-simple-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/herna/Desktop/Mateo UTN/3 Año/Diseño/tp/Etapa 6/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="lib/json-simple-1.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.18-bin.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
