@@ -26,7 +26,7 @@ public class PanelAltaCompetencia extends JPanel {
 	private tp.enums.Modalidad modalidadCompetencia;
 	private String reglamentoCompetencia;
 	private EstadoCompetencia estadoCompetencia;
-	private Optional<Integer> cantSets = null;
+	private Integer cantSets = null;
 	private ModalidadDePuntuacion puntuacion;
 	private Double tantosXAusencia;
 	private Boolean empate;
@@ -34,6 +34,10 @@ public class PanelAltaCompetencia extends JPanel {
 	private Double puntosPresentarse;
 	private Double puntosEmpate;
 	private Integer id_usuario = 6;
+	private Competencia competencia;
+	
+	//DAOs
+	private CompetenciaDAO competenciaDao;
 	
 	//Aqui se definen los componentes del Panel
 	private JTextField txtNombre;
@@ -81,8 +85,8 @@ public class PanelAltaCompetencia extends JPanel {
 
 		
 		btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setEnabled(false);
-//		btnConfirmar.setEnabled(true);
+//		btnConfirmar.setEnabled(false);
+		btnConfirmar.setEnabled(true);
 		btnConfirmar.setBackground(new Color(102, 102, 255));
 		
 		JLabel lblNombre = new JLabel("Nombre *");
@@ -171,7 +175,7 @@ public class PanelAltaCompetencia extends JPanel {
 			case "Eliminacion Doble": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DOBLE;
 			}
 			
-			ingresoModalidad = ( boxModalidad.getSelectedItem() != "----Seleccionar----" ); //  <-- es buena practica?
+			ingresoModalidad = ( boxModalidad.getSelectedItem() != "----Seleccionar----" ); 
 			if(ingresoNombre && ingresoDeporte && ingresoModalidad) {
 				if(rdbtnSets.isSelected() && ingresoCantidadSets) {
 					btnConfirmar.setEnabled(true);
@@ -182,6 +186,7 @@ public class PanelAltaCompetencia extends JPanel {
 			} else {
 				btnConfirmar.setEnabled(false);
 			}
+			
 		});
 		
 		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n");
@@ -206,7 +211,7 @@ public class PanelAltaCompetencia extends JPanel {
 				Character c = e.getKeyChar();
 				if(!c.isDigit(c)) {
 					txtCantidadSets.setText(txtCantidadSets.getText().substring(0, txtCantidadSets.getText().length()-1));
-				} else cantSets = Optional.of(Integer.parseInt(txtCantidadSets.getText()));
+				} else cantSets = Integer.parseInt(txtCantidadSets.getText());
 				
 				ingresoCantidadSets = (cantSets != null);
 				if(ingresoNombre && ingresoDeporte && ingresoModalidad) {
@@ -217,7 +222,7 @@ public class PanelAltaCompetencia extends JPanel {
 						btnConfirmar.setEnabled(true);
 					}
 				} else {
-					btnConfirmar.setEnabled(false);
+					btnConfirmar.setEnabled(true);
 				}
 			} 
 		});
@@ -276,7 +281,7 @@ public class PanelAltaCompetencia extends JPanel {
 				Character c = e.getKeyChar();
 				if(!c.isDigit(c)) {
 					txtPuntosPartidoGanado.setText(txtPuntosPartidoGanado.getText().substring(0, txtPuntosPartidoGanado.getText().length()-1));
-				} else puntosPartidoGanado = Double.parseDouble(txtPuntosPartidoGanado.getText());
+				} else puntosPartidoGanado = Double.parseDouble(txtPuntosPartidoGanado.getText()); // Falta Capturar la exception cuando esta vacio
 			} 
 		});
 		
@@ -435,10 +440,8 @@ public class PanelAltaCompetencia extends JPanel {
 		txtReglamento.setMaximumSize(new Dimension(100, 100));
 		scrollPane_1.setViewportView(txtReglamento);
 		txtReglamento.addKeyListener(new java.awt.event.KeyAdapter() {
-
 			@Override
 			public void keyReleased(KeyEvent e) {
-				txtReglamento.setText(txtReglamento.getText().toUpperCase());
 				reglamentoCompetencia = txtReglamento.getText();
 			}
 		});
@@ -482,18 +485,20 @@ public class PanelAltaCompetencia extends JPanel {
 		btnConfirmar.addActionListener( a -> {
 			switch(modalidadCompetencia) {
 			case LIGA:
-				CompetenciaLiga competencia = new CompetenciaLiga(00, nombreCompetencia, modalidadCompetencia,
-						null, null, cantSets, reglamentoCompetencia, EstadoCompetencia.CREADA,
-						puntuacion, tantosXAusencia, null,
-						id_deporte, null);
+				 competencia = new CompetenciaLiga(nombreCompetencia, modalidadCompetencia,
+						null, null, cantSets, reglamentoCompetencia, 
+						puntuacion, tantosXAusencia,this.id_usuario,
+						id_deporte, null,this.tableModel.getData());
 			case ELIMINACION_DIRECTA:
-				CompetenciaEliminacionSimple competencia1 = new CompetenciaEliminacionSimple(00, nombreCompetencia, modalidadCompetencia,
+				 competencia = new CompetenciaEliminacionSimple( nombreCompetencia, modalidadCompetencia,
 						null, null, cantSets, reglamentoCompetencia, estadoCompetencia,
-						puntuacion, tantosXAusencia, null, id_deporte);
+						puntuacion, tantosXAusencia, null, id_deporte, this.tableModel.getData());
 			case ELIMINACION_DOBLE:
-				CompetenciaEliminacionDoble competencia2 = new CompetenciaEliminacionDoble(00, nombreCompetencia, modalidadCompetencia, null,
-						null, cantSets, reglamentoCompetencia, estadoCompetencia, puntuacion, tantosXAusencia, null, id_deporte);
+				 competencia = new CompetenciaEliminacionDoble( nombreCompetencia, modalidadCompetencia, null,
+						null, cantSets, reglamentoCompetencia, estadoCompetencia, puntuacion, tantosXAusencia, null, id_deporte, this.tableModel.getData());
 			}
+			
+//			this.competenciaDao.Save(competencia);
 		});
 		
 	}

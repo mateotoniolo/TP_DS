@@ -16,7 +16,6 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 	private String[] columnNames = {"Codigo","Lugar","Disponibilidad"};
 	
 	public AltaCompetenciaTM() {
-		data.add(new ItemLugar(new Lugar(200,"Cancha norte",""),0,5,true));
 		
 	}
 	
@@ -67,5 +66,13 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 	public void vaciarTabla() {
 		this.data = null;
 		this.data = new ArrayList<ItemLugar>();
+	}
+
+	public List<ItemLugar> getData() {
+		return data;
+	}
+
+	public void setData(List<ItemLugar> data) {
+		this.data = data;
 	}
 }

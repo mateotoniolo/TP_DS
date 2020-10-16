@@ -19,12 +19,11 @@ public abstract class Competencia {
 	private Fixture fixture;
 	private String reglamento;
 	private EstadoCompetencia estado;
-	private Optional cantSets;
+	private Integer cantSets;
 	private ModalidadDePuntuacion puntuacion;
 	private Double tantosXAusencia;
 	private Integer id_administrador;
-	private Integer id_deporte;
-	
+	private Integer id_deporte;	
 	private List<ItemLugar> Lugares;
 	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
 	
@@ -35,8 +34,8 @@ public abstract class Competencia {
 	}
 		
 	// constructor
-	public Competencia(int id, String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Fixture fixture, Optional cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Integer id_deporte) {
-		this.setIdCompetencia(id);
+	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Fixture fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Integer id_deporte,List<ItemLugar> items) {
+		//this.setIdCompetencia(id);
 		this.setNombre(nombre);
 		this.setModalidad(modalidad);
 		this.setParticipantes(listaParticipantes);
@@ -48,6 +47,7 @@ public abstract class Competencia {
 		this.setTantosXAusencia(tantosXAusencia);		
 		this.setIdAdministrador(idAdministrador);
 		this.setIdDeporte(id_deporte);
+		this.Lugares = items;
 	}
 	
 	// Getters y Setters	
@@ -63,8 +63,8 @@ public abstract class Competencia {
 		this.fixture = fixture;
 	}
 	
-	public Fixture getFixture(){
-		return fixture;
+	public Integer getFixtureID(){
+		return fixture.getId_fixture();
 	}	
 	
 	public Integer getIdCompetencia() {
@@ -155,12 +155,12 @@ public abstract class Competencia {
 		this.id_administrador = id;
 	}
 
-	public Optional getCantSets() {
+	public Integer getCantSets() {
 		return cantSets;
 	}
 
-	public void setCantSets(Optional cantSets) {
-		this.cantSets = cantSets;
+	public void setCantSets(Integer cantSets2) {
+		this.cantSets = cantSets2;
 	}
 
 	public List<ItemLugar> getLugares() {

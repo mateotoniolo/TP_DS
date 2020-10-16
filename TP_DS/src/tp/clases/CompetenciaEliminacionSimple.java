@@ -14,12 +14,12 @@ public class CompetenciaEliminacionSimple extends Competencia {
 		super();
 	}
 	
-	public CompetenciaEliminacionSimple(int id, String nombre, Modalidad modalidad,
-			List<Participante> listaParticipantes, Fixture fixture, Optional cantSets, String reglamento, EstadoCompetencia estado,
+	public CompetenciaEliminacionSimple( String nombre, Modalidad modalidad,
+			List<Participante> listaParticipantes, Fixture fixture, Integer cantSets, String reglamento, EstadoCompetencia estado,
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,
-			Integer id_deporte) {
-		super(id, nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado, modalidadDePuntuacion, tantosXAusencia,
-				idAdministrador, id_deporte);
+			Integer id_deporte, List<ItemLugar> items) {
+		super( nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado, modalidadDePuntuacion, tantosXAusencia,
+				idAdministrador, id_deporte, items);
 		
 		
 	}

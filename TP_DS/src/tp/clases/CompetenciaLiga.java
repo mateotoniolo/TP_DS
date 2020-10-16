@@ -20,12 +20,12 @@ public class CompetenciaLiga extends Competencia {
 		super();
 	}
 	
-	public CompetenciaLiga(int id, String nombre, Modalidad modalidad,
-			List<Participante> listaParticipantes, Fixture fixture, Optional cantSets, String reglamento, EstadoCompetencia estado,
+	public CompetenciaLiga( String nombre, Modalidad modalidad,
+			List<Participante> listaParticipantes, Fixture fixture, Integer cantSets, String reglamento, 
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,
-			Integer id_deporte, List<EstadisticaTabla> estadisticas) {
-		super(id, nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado, modalidadDePuntuacion, tantosXAusencia,
-				idAdministrador, id_deporte);
+			Integer id_deporte, List<EstadisticaTabla> estadisticas, List<ItemLugar> items) {
+		super( nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, EstadoCompetencia.CREADA , modalidadDePuntuacion, tantosXAusencia,
+				idAdministrador, id_deporte,items);
 		
 		this.setEmpate(empate);
 		this.setPuntosXPresentarse(puntosXPresentarse);
