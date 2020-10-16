@@ -1,39 +1,19 @@
 package tp.GUI;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.JRadioButton;
-
-
-import java.awt.Color;
-import javax.swing.JTable;
-import javax.swing.JSplitPane;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Optional;
-
-import javax.swing.table.DefaultTableModel;
-
-import tp.DAO.DeporteDAO;
-import tp.clases.ItemLugar;
-import tp.enums.ModalidadDePuntuacion;
-
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.table.DefaultTableModel;
 
-import java.awt.Dimension;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.util.List;
 
-import javax.swing.JSeparator;
+import tp.DAO.*;
+import tp.clases.*;
+import tp.enums.*;
+
 
 public class PanelAltaCompetencia extends JPanel {
 	
@@ -42,17 +22,18 @@ public class PanelAltaCompetencia extends JPanel {
 	//Aqui se definen los atributos de la competencia
 	private String deporteCompetencia;
 	private Integer id_deporte;
-	private Modalidad modalidadCompetencia;
 	private String nombreCompetencia;
+	private tp.enums.Modalidad modalidadCompetencia;
 	private String reglamentoCompetencia;
+	private EstadoCompetencia estadoCompetencia;
+	private Optional<Integer> cantSets = null;
+	private ModalidadDePuntuacion puntuacion;
+	private Double tantosXAusencia;
+	private Boolean empate;
+	private Double puntosPartidoGanado;
+	private Double puntosPresentarse;
+	private Double puntosEmpate;
 	private Integer id_usuario = 6;
-	private String Reglamento;
-	private Optional<Integer> cantidadSets = null;
-	private ModalidadDePuntuacion modalidadPuntuacion;
-	private Integer tantosAusencia;
-	private Integer puntosPartidoGanado;
-	private Integer puntosPresentarse;
-	private Integer puntosEmpate;
 	
 	//Aqui se definen los componentes del Panel
 	private JTextField txtNombre;
@@ -67,12 +48,11 @@ public class PanelAltaCompetencia extends JPanel {
 	private JButton btnConfirmar; 
 	private JButton btnModificarLugar;
 	private JTable tableLugares;
-	private boolean ingresoNombre = true;
-	private boolean ingresoDeporte = true;
-	private boolean ingresoModalidad = true;
-	private boolean ingresoFormaPuntuacion = true;
-	private boolean ingresoCantidadSets = true;
-	private boolean ingresoCantidadTantos = true;
+	private boolean ingresoNombre = false;
+	private boolean ingresoDeporte = false;
+	private boolean ingresoModalidad = false;
+	private boolean ingresoCantidadSets = false;
+	private boolean ingresoTantosXAusencia = false;
 
 	//Define el Table model
 	AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
@@ -101,9 +81,8 @@ public class PanelAltaCompetencia extends JPanel {
 
 		
 		btnConfirmar = new JButton("Confirmar");
-//		btnConfirmar.setEnabled(false);
-//		TODO cambiar
-		btnConfirmar.setEnabled(true);
+		btnConfirmar.setEnabled(false);
+//		btnConfirmar.setEnabled(true);
 		btnConfirmar.setBackground(new Color(102, 102, 255));
 		
 		JLabel lblNombre = new JLabel("Nombre *");
@@ -120,17 +99,17 @@ public class PanelAltaCompetencia extends JPanel {
 		txtNombre.setColumns(10);
 		
 		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
-
 			@Override
 			public void keyReleased(KeyEvent e) {
 				txtNombre.setText(txtNombre.getText().toUpperCase());
 				nombreCompetencia = txtNombre.getText();
 				
-//				ingresoNombre = (txtNombre.getText().length()!=0);
-				if(ingresoNombre && ingresoDeporte && ingresoModalidad && ingresoFormaPuntuacion) {
+				ingresoNombre = (txtNombre.getText().length()>0);
+				if(ingresoNombre && ingresoDeporte && ingresoModalidad) {
 					if(rdbtnSets.isSelected() && ingresoCantidadSets) {
 						btnConfirmar.setEnabled(true);
-					} else if(rdbtnPuntuacion.isSelected() && ingresoCantidadTantos) {
+					}
+					if(modalidadCompetencia == tp.enums.Modalidad.LIGA && ingresoTantosXAusencia) {
 						btnConfirmar.setEnabled(true);
 					}
 				} else {
@@ -159,6 +138,18 @@ public class PanelAltaCompetencia extends JPanel {
 			this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vacía la tabla
 			this.tableLugares.updateUI();
 			btnModificarLugar.setEnabled(false);
+			
+			ingresoDeporte = ( boxDeporte.getSelectedItem() != "----Seleccionar----" );
+			if(ingresoNombre && ingresoDeporte && ingresoModalidad) {
+				if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+					btnConfirmar.setEnabled(true);
+				}
+				if(modalidadCompetencia == tp.enums.Modalidad.LIGA && ingresoTantosXAusencia) {
+					btnConfirmar.setEnabled(true);
+				}
+			} else {
+				btnConfirmar.setEnabled(false);
+			}
 		});
 		
 		
@@ -168,20 +159,32 @@ public class PanelAltaCompetencia extends JPanel {
 		add(lblModalidad);
 		//JBox modalidad
 		JComboBox<Modalidad> boxModalidad = new JComboBox<Modalidad>();
-		boxModalidad.setModel(new DefaultComboBoxModel(new String[] {"", "Liga", "Eliminacion Simple", "Eliminacion Doble"}));
+		boxModalidad.setModel(new DefaultComboBoxModel(new String[] {"----Seleccionar----", "Liga", "Eliminacion Simple", "Eliminacion Doble"}));
 		boxModalidad.setBounds(254, 96, 270, 30);
 		add(boxModalidad);
 		boxModalidad.addActionListener( a -> {
 			switch((String)boxModalidad.getSelectedItem()) {
-			case "Liga": modalidadCompetencia = Modalidad.LIGA;
+			case "Liga": modalidadCompetencia = tp.enums.Modalidad.LIGA;
 				break;
-			case "Eliminacion Simple": modalidadCompetencia = Modalidad.ELIMINACIONSIMPLE;
+			case "Eliminacion Simple": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DIRECTA;
 				break;
-			case "Eliminacion Doble": modalidadCompetencia = Modalidad.ELIMINACIONDOBLE;
+			case "Eliminacion Doble": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DOBLE;
+			}
+			
+			ingresoModalidad = ( boxModalidad.getSelectedItem() != "----Seleccionar----" ); //  <-- es buena practica?
+			if(ingresoNombre && ingresoDeporte && ingresoModalidad) {
+				if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+					btnConfirmar.setEnabled(true);
+				}
+				if(modalidadCompetencia == tp.enums.Modalidad.LIGA && ingresoTantosXAusencia) {
+					btnConfirmar.setEnabled(true);
+				}
+			} else {
+				btnConfirmar.setEnabled(false);
 			}
 		});
 		
-		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuación *");
+		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n");
 		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblFormaPuntuacion.setBounds(10, 224, 190, 30);
 		add(lblFormaPuntuacion);
@@ -193,7 +196,6 @@ public class PanelAltaCompetencia extends JPanel {
 		add(lblCantidadSets);
 		//Indica cantidad de sets
 		txtCantidadSets = new JTextField();
-		txtCantidadSets.setEnabled(false);
 		txtCantidadSets.setBounds(174, 311, 40, 26);
 		add(txtCantidadSets);
 		txtCantidadSets.setColumns(10);
@@ -204,7 +206,19 @@ public class PanelAltaCompetencia extends JPanel {
 				Character c = e.getKeyChar();
 				if(!c.isDigit(c)) {
 					txtCantidadSets.setText(txtCantidadSets.getText().substring(0, txtCantidadSets.getText().length()-1));
-				} else cantidadSets = Optional.of(Integer.parseInt(txtCantidadSets.getText()));
+				} else cantSets = Optional.of(Integer.parseInt(txtCantidadSets.getText()));
+				
+				ingresoCantidadSets = (cantSets != null);
+				if(ingresoNombre && ingresoDeporte && ingresoModalidad) {
+					if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+						btnConfirmar.setEnabled(true);
+					} 
+					if(modalidadCompetencia == tp.enums.Modalidad.LIGA && ingresoTantosXAusencia) {
+						btnConfirmar.setEnabled(true);
+					}
+				} else {
+					btnConfirmar.setEnabled(false);
+				}
 			} 
 		});
 
@@ -222,8 +236,21 @@ public class PanelAltaCompetencia extends JPanel {
 				Character c = e.getKeyChar();
 				if(!c.isDigit(c)) {
 					txtTantosAusencia.setText(txtTantosAusencia.getText().substring(0, txtTantosAusencia.getText().length()-1));
-				} else tantosAusencia = Integer.parseInt(txtTantosAusencia.getText());
-			} 
+				} else tantosXAusencia = Double.parseDouble(txtTantosAusencia.getText());
+				
+				
+				ingresoTantosXAusencia = ( tantosXAusencia != null );
+				if(ingresoNombre && ingresoDeporte && ingresoModalidad) {
+					if(rdbtnSets.isSelected() && ingresoCantidadSets) {
+						btnConfirmar.setEnabled(true);
+					}
+					if(modalidadCompetencia == tp.enums.Modalidad.LIGA && ingresoTantosXAusencia) {
+						btnConfirmar.setEnabled(true);
+					}
+				} else {
+					btnConfirmar.setEnabled(false);
+				}
+			}
 		});
 		
 		JLabel lblReglamento = new JLabel("Reglamento");
@@ -249,7 +276,7 @@ public class PanelAltaCompetencia extends JPanel {
 				Character c = e.getKeyChar();
 				if(!c.isDigit(c)) {
 					txtPuntosPartidoGanado.setText(txtPuntosPartidoGanado.getText().substring(0, txtPuntosPartidoGanado.getText().length()-1));
-				} else puntosPartidoGanado = Integer.parseInt(txtPuntosPartidoGanado.getText());
+				} else puntosPartidoGanado = Double.parseDouble(txtPuntosPartidoGanado.getText());
 			} 
 		});
 		
@@ -273,7 +300,7 @@ public class PanelAltaCompetencia extends JPanel {
 				Character c = e.getKeyChar();
 				if(!c.isDigit(c)) {
 					txtPuntosEmpate.setText(txtPuntosEmpate.getText().substring(0, txtPuntosEmpate.getText().length()-1));
-				} else puntosEmpate = Integer.parseInt(txtPuntosEmpate.getText());
+				} else puntosEmpate = Double.parseDouble(txtPuntosEmpate.getText());
 			} 
 		});
 		
@@ -286,9 +313,11 @@ public class PanelAltaCompetencia extends JPanel {
 		rdbtnEmpate.addActionListener( a -> {
 			if (rdbtnEmpate.isSelected()) {
 				txtPuntosEmpate.setEnabled(true);
+				empate = true;
 			} else {
 				txtPuntosEmpate.setEnabled(false);
 				txtPuntosEmpate.setText("");
+				empate = false;
 			}
 		});
 		
@@ -311,7 +340,7 @@ public class PanelAltaCompetencia extends JPanel {
 				Character c = e.getKeyChar();
 				if(!c.isDigit(c)) {
 					txtPuntosPresentarse.setText(txtPuntosPresentarse.getText().substring(0, txtPuntosPresentarse.getText().length()-1));
-				} else puntosPresentarse = Integer.parseInt(txtPuntosPresentarse.getText());
+				} else puntosPresentarse = Double.parseDouble(txtPuntosPresentarse.getText());
 			} 
 		});
 		
@@ -332,6 +361,7 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		rdbtnSets = new JRadioButton("Sets");
+		rdbtnSets.setSelected(true);
 		rdbtnSets.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnSets.setBounds(10, 260, 115, 18);
 		add(rdbtnSets);
@@ -446,6 +476,25 @@ public class PanelAltaCompetencia extends JPanel {
 			DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
 		});
 		
+		
+		//por ultimo se da de alta la competencia con sus datos
+
+		btnConfirmar.addActionListener( a -> {
+			switch(modalidadCompetencia) {
+			case LIGA:
+				CompetenciaLiga competencia = new CompetenciaLiga(00, nombreCompetencia, modalidadCompetencia,
+						null, null, cantSets, reglamentoCompetencia, EstadoCompetencia.CREADA,
+						puntuacion, tantosXAusencia, null,
+						id_deporte, null);
+			case ELIMINACION_DIRECTA:
+				CompetenciaEliminacionSimple competencia1 = new CompetenciaEliminacionSimple(00, nombreCompetencia, modalidadCompetencia,
+						null, null, cantSets, reglamentoCompetencia, estadoCompetencia,
+						puntuacion, tantosXAusencia, null, id_deporte);
+			case ELIMINACION_DOBLE:
+				CompetenciaEliminacionDoble competencia2 = new CompetenciaEliminacionDoble(00, nombreCompetencia, modalidadCompetencia, null,
+						null, cantSets, reglamentoCompetencia, estadoCompetencia, puntuacion, tantosXAusencia, null, id_deporte);
+			}
+		});
 		
 	}
 
