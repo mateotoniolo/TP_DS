@@ -13,6 +13,7 @@ public static void main(String[] args) {
 			public void run() {
 				try {
 					DataBase.leerJson();
+					DataBase.inicializarTablas();
 					MainApplication mainApplication = new MainApplication();
 					mainApplication.setVisible(true);
 				} catch (Exception e) {

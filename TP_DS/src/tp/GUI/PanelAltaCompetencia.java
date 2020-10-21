@@ -37,7 +37,8 @@ public class PanelAltaCompetencia extends JPanel {
 	private Competencia competencia;
 	
 	//DAOs
-	private CompetenciaDAO competenciaDao;
+	private CompetenciaDAO competenciaDao = new CompetenciaDAO();
+	private DeporteDAO deporteDao = new DeporteDAO();
 	
 	//Aqui se definen los componentes del Panel
 	private JTextField txtNombre;
@@ -220,7 +221,7 @@ public class PanelAltaCompetencia extends JPanel {
 				txtPuntosPartidoGanado.setText("");
 				txtPuntosPresentarse.setEnabled(false);
 				txtPuntosPresentarse.setText("");
-				txtTantosAusencia.setEnabled(false);
+				txtTantosAusencia.setEnabled(true);
 				txtTantosAusencia.setText("");
 				rdbtnEmpate.setEnabled(false);
 				rdbtnEmpate.setSelected(false);
@@ -354,7 +355,6 @@ public class PanelAltaCompetencia extends JPanel {
 					
 					if(ingresoTantosXAusencia) {
 						btnConfirmar.setEnabled(true);
-						System.out.println("ENTRO Y ADEMAS TXT="+txtTantosAusencia.getText());
 					}
 					else btnConfirmar.setEnabled(false);
 					
@@ -624,33 +624,43 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		
-		//por ultimo se da de alta la competencia con sus datos
+		//Al confirmar, se asignan todos los valores ingresados
 		btnConfirmar.addActionListener( a -> {
-			switch(modalidadCompetencia) {
-			case LIGA:
-				 competencia = new CompetenciaLiga(nombreCompetencia, modalidadCompetencia,
-						null, null, cantSets, reglamentoCompetencia, 
-						puntuacion, tantosXAusencia,this.id_usuario,
-						id_deporte, null,this.tableModel.getData());
-			case ELIMINACION_DIRECTA:
-				 competencia = new CompetenciaEliminacionSimple( nombreCompetencia, modalidadCompetencia,
-						null, null, cantSets, reglamentoCompetencia, estadoCompetencia,
-						puntuacion, tantosXAusencia, null, id_deporte, this.tableModel.getData());
-			case ELIMINACION_DOBLE:
-				 competencia = new CompetenciaEliminacionDoble( nombreCompetencia, modalidadCompetencia, null,
-						null, cantSets, reglamentoCompetencia, estadoCompetencia, puntuacion, tantosXAusencia, null, id_deporte, this.tableModel.getData());
-			}
-			
-
 			nombreCompetencia = txtNombre.getText();
 			deporteCompetencia = (String) boxDeporte.getSelectedItem();
-			cantSets = Integer.parseInt(txtCantidadSets.getText());
+			try {
+				cantSets = Integer.parseInt(txtCantidadSets.getText());
+			}
+			catch(Exception e) {
+				cantSets = null;
+			}
+			try {
 			tantosXAusencia = Double.parseDouble(txtTantosAusencia.getText());
+			}
+			catch(Exception e) {
+				tantosXAusencia = null;
+			}
+			try {
 			puntosPartidoGanado = Double.parseDouble(txtPuntosPartidoGanado.getText());
+			}
+			catch(Exception e) {
+				puntosPartidoGanado = null;
+			}
+			try {
 			puntosEmpate = Double.parseDouble(txtPuntosEmpate.getText());
+			} 
+			catch(Exception e) {
+				puntosEmpate = null;
+			}
+			try {
 			puntosPresentarse = Double.parseDouble(txtPuntosPresentarse.getText());
+			}
+			catch(Exception e) {
+				puntosPresentarse = null;
+			}
 			reglamentoCompetencia = txtReglamento.getText();
 			
+			//Set de modalidad de competencia
 			switch((String)boxModalidad.getSelectedItem()) {
 			case "Liga": modalidadCompetencia = tp.enums.Modalidad.LIGA;
 				break;
@@ -658,17 +668,48 @@ public class PanelAltaCompetencia extends JPanel {
 				break;
 			case "Eliminacion Doble": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DOBLE;
 			}
+			//Set de Modalidad de Puntuacion
+			if(rdbtnSets.isSelected()) {
+				this.puntuacion = ModalidadDePuntuacion.SETS;
+			}else if(rdbtnPuntuacion.isSelected()) {
+				this.puntuacion = ModalidadDePuntuacion.PUNTUACION;
+				this.cantSets = 0;
+			}else if(rdbtnPuntuacionFinal.isSelected()) {
+				this.puntuacion = ModalidadDePuntuacion.PUNTUACION_FINAL;
+				this.cantSets = 0;
+			}
+			//Set de idDeporte
+			id_deporte = deporteDao.getIDbyNombre(this.boxDeporte.getSelectedItem().toString());
 			
-			System.out.println("Nombre: "+nombreCompetencia);
-			System.out.println("Deporte: "+deporteCompetencia);
-			System.out.println("Sets: "+cantSets);
-			System.out.println("Ausencia: "+tantosXAusencia);
-			System.out.println("Puntos Ganado: "+puntosPartidoGanado);
-			System.out.println("Puntos Empate: "+puntosEmpate);
-			System.out.println("Puntos Presentarse: "+puntosPresentarse);
-			System.out.println("Reglamento: "+reglamentoCompetencia);
+			switch(modalidadCompetencia) {
+			case LIGA:
+				 competencia = new CompetenciaLiga(nombreCompetencia, modalidadCompetencia,
+						null, null, cantSets, reglamentoCompetencia, 
+						puntuacion, tantosXAusencia,this.id_usuario,
+						id_deporte, null,this.tableModel.getData());
+				 break;
+			case ELIMINACION_DIRECTA:
+				 competencia = new CompetenciaEliminacionSimple( nombreCompetencia, modalidadCompetencia,
+						null, null, cantSets, reglamentoCompetencia, estadoCompetencia,
+						puntuacion, tantosXAusencia, this.id_usuario, id_deporte, this.tableModel.getData());
+				 break;
+			case ELIMINACION_DOBLE:
+				 competencia = new CompetenciaEliminacionDoble( nombreCompetencia, modalidadCompetencia, null,
+						null, cantSets, reglamentoCompetencia, estadoCompetencia, puntuacion, tantosXAusencia, this.id_usuario, id_deporte, this.tableModel.getData());
+				 	break;
+			}
 			
-//			this.competenciaDao.Save(competencia);
+//			System.out.println("Nombre: "+nombreCompetencia);
+//			System.out.println("Deporte: "+deporteCompetencia);
+//			System.out.println(modalidadCompetencia);
+//			System.out.println("Sets: "+cantSets);
+//			System.out.println("Ausencia: "+tantosXAusencia);
+//			System.out.println("Puntos Ganado: "+puntosPartidoGanado);
+//			System.out.println("Puntos Empate: "+puntosEmpate);
+//			System.out.println("Puntos Presentarse: "+puntosPresentarse);
+//			System.out.println("Reglamento: "+reglamentoCompetencia);
+			
+			this.competenciaDao.Save(competencia);
 		});
 		
 	}
@@ -682,7 +723,7 @@ public class PanelAltaCompetencia extends JPanel {
 	} 
 
 	public String getDeporteCompetencia() {
-		return deporteCompetencia;
+		return this.boxDeporte.getSelectedItem().toString();
 	}
 
 	public void setDeporteCompetencia(String deporteCompetencia) {

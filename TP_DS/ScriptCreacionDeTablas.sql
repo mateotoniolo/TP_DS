@@ -41,17 +41,18 @@ CREATE TABLE dsi20203c.Deporte (
 );
 
 CREATE TABLE dsi20203c.Competencia(
-	id_competencia integer primary key,
+	id_competencia integer NOT NULL AUTO_INCREMENT,
 	id_usuario integer ,
 	id_fixture integer ,
 	nombre varchar(60),
 	cant_sets integer,
 	reglamento varchar(300),
 	estado ENUM('CREADA','PLANIFICADA','EN DISPUTA','FINALIZADA'),
-	modalidad ENUM('LIGA','ELIMINACION DOBLE', 'ELIMINACION DIRECTA'),
-	puntuacion ENUM('SETS','PUNTUACION','PUNTUACION FINAL'),
+	modalidad ENUM('LIGA','ELIMINACION DOBLE', 'ELIMINACION_DIRECTA'),
+	puntuacion ENUM('SETS','PUNTUACION','PUNTUACION_FINAL'),
 	tantosXAusencia double,
 	id_deporte integer ,
+	PRIMARY KEY (id_competencia),
 	FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) on delete cascade on update cascade,
 	FOREIGN KEY (id_fixture) REFERENCES Fixture(id_fixture) on delete cascade on update cascade,
 	FOREIGN KEY (id_deporte) REFERENCES Deporte(id_deporte) on delete cascade on update cascade

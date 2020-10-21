@@ -234,7 +234,7 @@ public abstract class DataBase {
 			DataBase.cerrarConexion(con);
 		}
 		ejecutarScript("ScriptCreacionDeTablas.sql");
-		//ejecutarScript("ScriptPobladoDeTablas.sql");
+		ejecutarScript("ScriptPobladoDeTablas.sql");
 	}
 
 
