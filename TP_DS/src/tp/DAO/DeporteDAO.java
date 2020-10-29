@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import tp.DTOs.DeporteDTO;
 import tp.clases.Deporte;
 
 
@@ -18,17 +19,17 @@ public class DeporteDAO {
 		super();
 	}
 	
-	public List<String> getNombres() {
+	public static List<DeporteDTO> getNombres() {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		List<String> m = new ArrayList<>();
+		List<DeporteDTO> m = new ArrayList<>();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT nombre FROM dsi20203c.Deporte ");
+					"SELECT * FROM dsi20203c.Deporte ");
 			rs = pstm.executeQuery();
 			while(rs.next()) {
-				m.add(rs.getString(1)) ;
+				m.add(new DeporteDTO(rs.getInt(1),rs.getString(2))) ;
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	

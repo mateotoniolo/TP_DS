@@ -22,6 +22,7 @@ import javax.swing.border.LineBorder;
 import tp.DAO.DeporteDAO;
 import tp.DAO.LugarDAO;
 import tp.DTOs.ItemLugarDTO;
+import tp.Gestores.GestorUsuario;
 import tp.clases.ItemLugar;
 import tp.clases.Lugar;
 
@@ -120,24 +121,7 @@ public class DialogAltaLugar extends JDialog {
 		lblDisponibilidad.setBounds(6, 16, 47, 17);
 		contentPanel.add(lblDisponibilidad);
 		lblDisponibilidad.setFont(new Font("Tahoma", Font.PLAIN, 14));	
-		
-		//No se para q esta esto, disponibilidad se guarda en textField
-//		JTextField txtDisponibilidad = new JTextField(20);
-//		txtDisponibilidad.setBounds(6, 35, 215, 26);
-//		contentPanel.add(txtDisponibilidad);
-//		
-//		txtDisponibilidad.addKeyListener(new java.awt.event.KeyAdapter() {
-//
-//			@Override
-//			public void keyReleased(KeyEvent e) {
-//				Character c = e.getKeyChar();
-//				if(!c.isDigit(c)) {
-//					txtDisponibilidad.setText(txtDisponibilidad.getText().substring(0, txtDisponibilidad.getText().length()-1));
-//				} else disponibilidad = Integer.parseInt(txtDisponibilidad.getText());
-//			} 
-//		});
-//		
-//				
+						
 				JSplitPane splitCancelarConfirmar = new JSplitPane();
 				splitCancelarConfirmar.setBounds(248, 87, 180, 30);
 				contentPanel.add(splitCancelarConfirmar);
@@ -147,7 +131,6 @@ public class DialogAltaLugar extends JDialog {
 				btnConfirmar.setBackground(new Color(102, 102, 255));
 				btnConfirmar.addActionListener(a -> {
 					disponibilidad = Integer.parseInt(textField.getText());
-					
 					Optional<ItemLugarDTO> optional = lugares.stream().filter(m -> m.getNombre().equals(this.boxLugar.getSelectedItem())).findFirst();
 					ItemLugarDTO item = new ItemLugarDTO(optional.get().getCodigo(),optional.get().getNombre(), this.disponibilidad);
 					p.addItemTM(item);
@@ -171,7 +154,7 @@ public class DialogAltaLugar extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
 		
-			this.lugares = LugarDAO.cargar(this.boxLugar, p.getId_usuario(), p.getDeporteCompetencia());
+			this.lugares = GestorUsuario.cargarLugares(this.boxLugar, p.getId_usuario(), p.getDeporteCompetencia());
 			
 	}
 	

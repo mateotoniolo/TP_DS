@@ -1,7 +1,11 @@
 package tp.Gestores;
 
+import java.util.List;
+
 import tp.DAO.CompetenciaDAO;
+import tp.DAO.DeporteDAO;
 import tp.DTOs.CompetenciaDTO;
+import tp.DTOs.DeporteDTO;
 import tp.clases.Competencia;
 import tp.clases.CompetenciaEliminacionDoble;
 import tp.clases.CompetenciaEliminacionSimple;
@@ -37,4 +41,10 @@ public class GestorCompetencia {
 		
 		return this.competenciaDao.Save(competencia);
 		}
+	
+	public static List<DeporteDTO> getDeportes(){
+		
+		return DeporteDAO.getNombres();
+		
+	}
 }

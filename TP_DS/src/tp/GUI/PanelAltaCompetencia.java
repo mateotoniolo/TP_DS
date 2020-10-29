@@ -12,6 +12,7 @@ import java.util.List;
 
 import tp.DAO.*;
 import tp.DTOs.CompetenciaDTO;
+import tp.DTOs.DeporteDTO;
 import tp.DTOs.ItemLugarDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.clases.*;
@@ -163,12 +164,12 @@ public class PanelAltaCompetencia extends JPanel {
 		add(lblDeporte);
 		//JBox de deporte
 		boxDeporte = new JComboBox<String>();
-		DeporteDAO deporteDao = new DeporteDAO();
 		boxDeporte.setModel(new DefaultComboBoxModel<String>()); //Pide a la BD todos los nombre de los deportes y los asigna al ComboBox
 		boxDeporte.addItem("----Seleccionar----");
-		for(String s : deporteDao.getNombres()) {
-			boxDeporte.addItem(s);
+		for(DeporteDTO d : GestorCompetencia.getDeportes()) {
+			boxDeporte.addItem(d.getNombre());
 		}
+		
 		boxDeporte.setBounds(10, 96, 232, 30);
 		add(boxDeporte);
 		boxDeporte.addActionListener( a -> {
