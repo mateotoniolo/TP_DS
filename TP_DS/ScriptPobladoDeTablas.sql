@@ -8,9 +8,9 @@ INSERT INTO dsi20203c.Usuario VALUES
 (6,NULL,NULL, 'Mateo','Toniolo','utn','DNI',42561194);
 
 INSERT INTO dsi20203c.Lugar VALUES
-(1,'Cancha Norte',''),
-(2,'Cancha Sur',''),
-(40,'Cancha Centro','');
+(1,'Cancha Norte','',6),
+(2,'Cancha Sur','',1),
+(40,'Cancha Centro','',6);
 
 INSERT INTO dsi20203c.Relacion_Lugar_Usuario VALUES
 (6,1),

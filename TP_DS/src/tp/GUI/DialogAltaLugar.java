@@ -43,23 +43,24 @@ public class DialogAltaLugar extends JDialog {
 		}
 		@Override
 		public void run() {
+				
 			initialize(panel);			
 		}
 		
 	}
-	public class cargar implements Runnable {
-		PanelAltaCompetencia  panel= null;
-		JComboBox box = null;
-		public cargar(JComboBox cb,PanelAltaCompetencia p) {
-			panel = p;
-			box = cb;
-		}
-		@Override
-		public void run() {
-			cargar(boxLugar,panel);		
-		}
-		
-	}
+//	public class cargar implements Runnable {
+//		PanelAltaCompetencia  panel= null;
+//		JComboBox box = null;
+//		public cargar(JComboBox cb,PanelAltaCompetencia p) {
+//			panel = p;
+//			box = cb;
+//		}
+//		@Override
+//		public void run() {
+//			cargar(boxLugar,panel.getId_usuario(),panel.getDeporteCompetencia());		
+//		}
+//		
+//	}
 
 	public DialogAltaLugar(PanelAltaCompetencia p) {
 		try {
@@ -68,7 +69,7 @@ public class DialogAltaLugar extends JDialog {
 			this.setVisible(true);
 			//Un Thread crea el Dialog mientras que el otro busca los lugares disponible para ese usuario y ese deporte
 			new Thread (new iniciar(p), "inicializar").start();
-			new Thread (new cargar(boxLugar,p), "cargar").start();
+			//new Thread (new cargar(boxLugar,p), "cargar").start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,6 +100,7 @@ public class DialogAltaLugar extends JDialog {
 		
 		boxLugar.setBounds(6, 35, 215, 26);
 		contentPanel.add(boxLugar);
+		
 		
 		JLabel lblDisponibilidad = new JLabel("Lugar *");
 		lblDisponibilidad.setBounds(6, 16, 47, 17);
@@ -133,7 +135,7 @@ public class DialogAltaLugar extends JDialog {
 					Optional<Lugar> optional = lugares.stream().filter(m -> m.getNombre().equals(this.boxLugar.getSelectedItem())).findFirst();
 					item.setLugar(optional.get());
 					item.setCantidadEncuentros(Integer.valueOf(this.textField.getText()));
-					p.addItemTM(item);
+					//p.addItemTM(item);
 					this.dispose();
 					//Crea el item con los datos ingresados
 				});
@@ -154,16 +156,11 @@ public class DialogAltaLugar extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
 		
-			
+			LugarDAO.cargar(this.boxLugar, p.getId_usuario(), p.getDeporteCompetencia());
 			
 	}
 	
-	public void cargar(JComboBox<String> b, PanelAltaCompetencia p) {
-		DeporteDAO deporteDao = new DeporteDAO();
-		lugares = LugarDAO.getLugarByDeporteUsuario(deporteDao.getIDbyNombre(p.getDeporteCompetencia()), p.getId_usuario());
-		for(Lugar lugar : lugares) {
-			b.addItem(lugar.getNombre());
-		}
+	
 		
-	}
+	
 }

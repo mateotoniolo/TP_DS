@@ -11,6 +11,9 @@ import java.util.*;
 import java.util.List;
 
 import tp.DAO.*;
+import tp.DTOs.CompetenciaDTO;
+import tp.DTOs.ItemLugarDTO;
+import tp.Gestores.GestorCompetencia;
 import tp.clases.*;
 import tp.enums.*;
 
@@ -39,6 +42,12 @@ public class PanelAltaCompetencia extends JPanel {
 	//DAOs
 	private CompetenciaDAO competenciaDao = new CompetenciaDAO();
 	private DeporteDAO deporteDao = new DeporteDAO();
+	
+	//Gestores
+	private GestorCompetencia gestorCompetencia = new GestorCompetencia();
+	
+	//DTO
+	private CompetenciaDTO compDTO ;
 	
 	//Aqui se definen los componentes del Panel
 	private JTextField txtNombre;
@@ -166,7 +175,7 @@ public class PanelAltaCompetencia extends JPanel {
 			this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vacía la tabla
 			this.tableLugares.updateUI();
 			btnModificarLugar.setEnabled(false);
-			
+			this.deporteCompetencia = this.boxDeporte.getSelectedItem().toString();
 //			TODO validaciones
 			ingresoNombre = (txtNombre.getText() != "");
 			ingresoDeporte = (boxDeporte.getSelectedItem() != "----Seleccionar----");
@@ -667,6 +676,7 @@ public class PanelAltaCompetencia extends JPanel {
 			case "Eliminacion Simple": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DIRECTA;
 				break;
 			case "Eliminacion Doble": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DOBLE;
+				break;
 			}
 			//Set de Modalidad de Puntuacion
 			if(rdbtnSets.isSelected()) {
@@ -680,36 +690,14 @@ public class PanelAltaCompetencia extends JPanel {
 			}
 			//Set de idDeporte
 			id_deporte = deporteDao.getIDbyNombre(this.boxDeporte.getSelectedItem().toString());
-			
-			switch(modalidadCompetencia) {
-			case LIGA:
-				 competencia = new CompetenciaLiga(nombreCompetencia, modalidadCompetencia,
-						null, null, cantSets, reglamentoCompetencia, 
-						puntuacion, tantosXAusencia,this.id_usuario,
-						id_deporte, null,this.tableModel.getData());
-				 break;
-			case ELIMINACION_DIRECTA:
-				 competencia = new CompetenciaEliminacionSimple( nombreCompetencia, modalidadCompetencia,
-						null, null, cantSets, reglamentoCompetencia, estadoCompetencia,
-						puntuacion, tantosXAusencia, this.id_usuario, id_deporte, this.tableModel.getData());
-				 break;
-			case ELIMINACION_DOBLE:
-				 competencia = new CompetenciaEliminacionDoble( nombreCompetencia, modalidadCompetencia, null,
-						null, cantSets, reglamentoCompetencia, estadoCompetencia, puntuacion, tantosXAusencia, this.id_usuario, id_deporte, this.tableModel.getData());
-				 	break;
+			//Asigna valores de DTO
+			compDTO = new CompetenciaDTO(this.nombreCompetencia,this.modalidadCompetencia, this.reglamentoCompetencia,
+					this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
+					this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
+			//
+			if(gestorCompetencia.Save(compDTO)) {
+				System.out.println("Se guardo con exito");
 			}
-			
-//			System.out.println("Nombre: "+nombreCompetencia);
-//			System.out.println("Deporte: "+deporteCompetencia);
-//			System.out.println(modalidadCompetencia);
-//			System.out.println("Sets: "+cantSets);
-//			System.out.println("Ausencia: "+tantosXAusencia);
-//			System.out.println("Puntos Ganado: "+puntosPartidoGanado);
-//			System.out.println("Puntos Empate: "+puntosEmpate);
-//			System.out.println("Puntos Presentarse: "+puntosPresentarse);
-//			System.out.println("Reglamento: "+reglamentoCompetencia);
-			
-			this.competenciaDao.Save(competencia);
 		});
 		
 	}
@@ -746,7 +734,7 @@ public class PanelAltaCompetencia extends JPanel {
 		this.id_usuario = id_usuario;
 	}
 	
-	public void addItemTM(ItemLugar item) { // este metodo agrega el item para la tabla 
+	public void addItemTM(ItemLugarDTO item) { // este metodo agrega el item para la tabla 
 		this.tableModel.addItemTM(item);
 		this.tableLugares.updateUI();
 	}

@@ -46,6 +46,7 @@ CREATE TABLE dsi20203c.Competencia(
 	id_fixture integer ,
 	nombre varchar(60),
 	cant_sets integer,
+	empate boolean,
 	reglamento varchar(300),
 	estado ENUM('CREADA','PLANIFICADA','EN DISPUTA','FINALIZADA'),
 	modalidad ENUM('LIGA','ELIMINACION DOBLE', 'ELIMINACION_DIRECTA'),
@@ -85,7 +86,9 @@ CREATE TABLE dsi20203c.Competencia_Liga (
 CREATE TABLE dsi20203c.Lugar (
 	codigo integer primary key,
 	nombre varchar(70),
-	descripcion varchar(300)
+	descripcion varchar(300),
+	id_usuario integer,
+	FOREIGN KEY(id_usuario) REFERENCES Usuario(id_usuario) on delete cascade on update cascade
 );
 
 CREATE TABLE dsi20203c.Relacion_Lugar_Deporte(

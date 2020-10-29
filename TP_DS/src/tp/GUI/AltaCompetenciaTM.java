@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import tp.DTOs.ItemLugarDTO;
 import tp.clases.ItemLugar;
 import tp.clases.Lugar;
 
@@ -12,14 +13,18 @@ import tp.clases.Lugar;
 
 
 public class AltaCompetenciaTM extends AbstractTableModel{
-	private List<ItemLugar> data = new ArrayList<ItemLugar>();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private List<ItemLugarDTO> data = new ArrayList<ItemLugarDTO>();
 	private String[] columnNames = {"Codigo","Lugar","Disponibilidad"};
 	
 	public AltaCompetenciaTM() {
 		
 	}
 	
-	public void addItemTM(ItemLugar item) {
+	public void addItemTM(ItemLugarDTO item) {
 		this.data.add(item);
 	}
 	
@@ -41,14 +46,14 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		
-		ItemLugar temp = data.get(rowIndex);
+		ItemLugarDTO temp = data.get(rowIndex);
 		switch(columnIndex) {
 		case 0:
 			return temp.getCodigo();
 		case 1:
-			return temp.getLugar();
+			return temp.getNombre();
 		case 2: 
-			return temp.getCantidadEncuentros();
+			return temp.getDisponibilidad();
 		}
 		return null;
 	}
@@ -65,14 +70,14 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 	
 	public void vaciarTabla() {
 		this.data = null;
-		this.data = new ArrayList<ItemLugar>();
+		this.data = new ArrayList<ItemLugarDTO>();
 	}
 
-	public List<ItemLugar> getData() {
+	public List<ItemLugarDTO> getData() {
 		return data;
 	}
 
-	public void setData(List<ItemLugar> data) {
+	public void setData(List<ItemLugarDTO> data) {
 		this.data = data;
 	}
 }

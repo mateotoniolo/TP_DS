@@ -6,6 +6,8 @@ import tp.enums.ModalidadDePuntuacion;
 
 import java.util.List;
 import java.util.Optional;
+
+import tp.DTOs.ItemLugarDTO;
 import tp.auditorias.AuditoriaDeBajaDeCompetencia;
 public abstract class Competencia {
 	
@@ -24,8 +26,9 @@ public abstract class Competencia {
 	private Double tantosXAusencia;
 	private Integer id_administrador;
 	private Integer id_deporte;	
-	private List<ItemLugar> Lugares;
+	private List<ItemLugarDTO> Lugares;
 	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
+	private Boolean empate;
 	
 	
 	// constructor sin params
@@ -34,7 +37,7 @@ public abstract class Competencia {
 	}
 		
 	// constructor
-	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Fixture fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Integer id_deporte,List<ItemLugar> items) {
+	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Fixture fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Integer id_deporte,List<ItemLugarDTO> list,Boolean empate) {
 		//this.setIdCompetencia(id);
 		this.setNombre(nombre);
 		this.setModalidad(modalidad);
@@ -47,7 +50,9 @@ public abstract class Competencia {
 		this.setTantosXAusencia(tantosXAusencia);		
 		this.setIdAdministrador(idAdministrador);
 		this.setIdDeporte(id_deporte);
-		this.Lugares = items;
+		this.Lugares = list;
+		this.empate = empate;
+		this.Lugares = list;
 	}
 	
 	// Getters y Setters	
@@ -163,15 +168,15 @@ public abstract class Competencia {
 		this.cantSets = cantSets2;
 	}
 
-	public List<ItemLugar> getLugares() {
+	public List<ItemLugarDTO> getLugares() {
 		return Lugares;
 	}
 
-	public void setLugares(List<ItemLugar> lugares) {
+	public void setLugares(List<ItemLugarDTO> lugares) {
 		Lugares = lugares;
 	}
 	
-	public void addItem(ItemLugar lugar) {
+	public void addItem(ItemLugarDTO lugar) {
 		this.Lugares.add(lugar);
 	}
 
@@ -185,5 +190,57 @@ public abstract class Competencia {
 	
 	public void addBajaDeCompetencia(AuditoriaDeBajaDeCompetencia baja) {
 		this.historialBaja.add(baja);
+	}
+
+	public Integer getId_Competencia() {
+		return id_Competencia;
+	}
+
+	public void setId_Competencia(Integer id_Competencia) {
+		this.id_Competencia = id_Competencia;
+	}
+
+	public List<Participante> getListaParticipantes() {
+		return listaParticipantes;
+	}
+
+	public void setListaParticipantes(List<Participante> listaParticipantes) {
+		this.listaParticipantes = listaParticipantes;
+	}
+
+	public ModalidadDePuntuacion getPuntuacion() {
+		return puntuacion;
+	}
+
+	public void setPuntuacion(ModalidadDePuntuacion puntuacion) {
+		this.puntuacion = puntuacion;
+	}
+
+	public Integer getId_administrador() {
+		return id_administrador;
+	}
+
+	public void setId_administrador(Integer id_administrador) {
+		this.id_administrador = id_administrador;
+	}
+
+	public Integer getId_deporte() {
+		return id_deporte;
+	}
+
+	public void setId_deporte(Integer id_deporte) {
+		this.id_deporte = id_deporte;
+	}
+
+	public Boolean getEmpate() {
+		return empate;
+	}
+
+	public void setEmpate(Boolean empate) {
+		this.empate = empate;
+	}
+
+	public Fixture getFixture() {
+		return fixture;
 	}
 }
