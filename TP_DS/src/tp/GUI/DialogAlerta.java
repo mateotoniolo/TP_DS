@@ -18,26 +18,31 @@ public class DialogAlerta extends JDialog {
 	
 	public final JPanel contentPanel = new JPanel();
 	
+	
 	public DialogAlerta() {
-		inizializate();
+		super();
+		inizialize();
 	}
-	public void inizializate() {
+	
+	public void inizialize() {
 		
+
+		setVisible(true);
 		setResizable(false);
-		setBounds(100, 100, 350, 200);
+		setBounds(100, 100, 400, 200);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblInformacion = new JLabel("Esta competencia ya est\u00E1 en disputa o finaliz\u00F3.");
+			JLabel lblInformacion = new JLabel("No se pudo guardar la competencia.");
 			lblInformacion.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblInformacion.setBounds(76, 30, 289, 103);
+			lblInformacion.setBounds(122, 30, 219, 103);
 			contentPanel.add(lblInformacion);
 		}
 		{
 			JLabel lblError = new JLabel("ERROR");
-			lblError.setBounds(146, 11, 77, 25);
+			lblError.setBounds(180, 11, 77, 25);
 			lblError.setFont(new Font("Tahoma", Font.BOLD, 20));
 			contentPanel.add(lblError);
 		}

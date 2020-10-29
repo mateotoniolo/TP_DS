@@ -19,12 +19,14 @@ public class DialogExito extends JDialog {
 	public final JPanel contentPanel = new JPanel();
 	
 	public DialogExito() {
+		super();
 		inizializate();
 	}
 	public void inizializate() {
 		
+		setVisible(true);
 		setResizable(false);
-		setBounds(100, 100, 350, 200);
+		setBounds(100, 100, 400, 200);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -32,12 +34,12 @@ public class DialogExito extends JDialog {
 		{
 			JLabel lblInformacion = new JLabel("La competencia fue creada correctamente.");
 			lblInformacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblInformacion.setBounds(77, 30, 281, 103);
+			lblInformacion.setBounds(103, 30, 281, 103);
 			contentPanel.add(lblInformacion);
 		}
 		{
 			JLabel lblExito = new JLabel("\u00C9XITO");
-			lblExito.setBounds(146, 11, 77, 25);
+			lblExito.setBounds(168, 11, 77, 25);
 			lblExito.setFont(new Font("Tahoma", Font.BOLD, 20));
 			contentPanel.add(lblExito);
 		}
