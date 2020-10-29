@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 
 import tp.DAO.DeporteDAO;
 import tp.DAO.LugarDAO;
+import tp.DTOs.ItemLugarDTO;
 import tp.clases.ItemLugar;
 import tp.clases.Lugar;
 
@@ -32,9 +33,9 @@ public class DialogAltaLugar extends JDialog {
 	public final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	JComboBox<String> boxLugar = new JComboBox<String>();
-	List<Lugar> lugares = new ArrayList<Lugar>();
+	List<ItemLugarDTO> lugares = new ArrayList<ItemLugarDTO>();
 	
-	private Integer disponibilidad;
+	private Integer disponibilidad = null;
 	
 	public class iniciar implements Runnable {
 		PanelAltaCompetencia  panel= null;
@@ -92,6 +93,19 @@ public class DialogAltaLugar extends JDialog {
 		contentPanel.add(textField);
 		textField.setColumns(10);
 		
+		textField.addKeyListener(new java.awt.event.KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Character c = e.getKeyChar();
+				if(!c.isDigit(c)) {
+					try{
+						textField.setText(textField.getText().substring(0, textField.getText().length()-1));
+					}catch(Exception ex) {};
+				} 
+			} 
+		});
+		
 		
 		JLabel lblLugar = new JLabel("Disponibilidad *");
 		lblLugar.setBounds(233, 16, 93, 17);
@@ -107,22 +121,23 @@ public class DialogAltaLugar extends JDialog {
 		contentPanel.add(lblDisponibilidad);
 		lblDisponibilidad.setFont(new Font("Tahoma", Font.PLAIN, 14));	
 		
-		JTextField txtDisponibilidad = new JTextField(20);
-		txtDisponibilidad.setBounds(6, 35, 215, 26);
-		contentPanel.add(txtDisponibilidad);
-		
-		txtDisponibilidad.addKeyListener(new java.awt.event.KeyAdapter() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				Character c = e.getKeyChar();
-				if(!c.isDigit(c)) {
-					txtDisponibilidad.setText(txtDisponibilidad.getText().substring(0, txtDisponibilidad.getText().length()-1));
-				} else disponibilidad = Integer.parseInt(txtDisponibilidad.getText());
-			} 
-		});
-		
-				
+		//No se para q esta esto, disponibilidad se guarda en textField
+//		JTextField txtDisponibilidad = new JTextField(20);
+//		txtDisponibilidad.setBounds(6, 35, 215, 26);
+//		contentPanel.add(txtDisponibilidad);
+//		
+//		txtDisponibilidad.addKeyListener(new java.awt.event.KeyAdapter() {
+//
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				Character c = e.getKeyChar();
+//				if(!c.isDigit(c)) {
+//					txtDisponibilidad.setText(txtDisponibilidad.getText().substring(0, txtDisponibilidad.getText().length()-1));
+//				} else disponibilidad = Integer.parseInt(txtDisponibilidad.getText());
+//			} 
+//		});
+//		
+//				
 				JSplitPane splitCancelarConfirmar = new JSplitPane();
 				splitCancelarConfirmar.setBounds(248, 87, 180, 30);
 				contentPanel.add(splitCancelarConfirmar);
@@ -130,12 +145,12 @@ public class DialogAltaLugar extends JDialog {
 				
 				JButton btnConfirmar = new JButton("Confirmar");
 				btnConfirmar.setBackground(new Color(102, 102, 255));
-				btnConfirmar.addActionListener(a -> {				
-					ItemLugar item = new ItemLugar();
-					Optional<Lugar> optional = lugares.stream().filter(m -> m.getNombre().equals(this.boxLugar.getSelectedItem())).findFirst();
-					item.setLugar(optional.get());
-					item.setCantidadEncuentros(Integer.valueOf(this.textField.getText()));
-					//p.addItemTM(item);
+				btnConfirmar.addActionListener(a -> {
+					disponibilidad = Integer.parseInt(textField.getText());
+					
+					Optional<ItemLugarDTO> optional = lugares.stream().filter(m -> m.getNombre().equals(this.boxLugar.getSelectedItem())).findFirst();
+					ItemLugarDTO item = new ItemLugarDTO(optional.get().getCodigo(),optional.get().getNombre(), this.disponibilidad);
+					p.addItemTM(item);
 					this.dispose();
 					//Crea el item con los datos ingresados
 				});
@@ -156,7 +171,7 @@ public class DialogAltaLugar extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
 		
-			LugarDAO.cargar(this.boxLugar, p.getId_usuario(), p.getDeporteCompetencia());
+			this.lugares = LugarDAO.cargar(this.boxLugar, p.getId_usuario(), p.getDeporteCompetencia());
 			
 	}
 	
