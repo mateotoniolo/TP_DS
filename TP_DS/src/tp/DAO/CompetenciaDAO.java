@@ -19,7 +19,7 @@ public class CompetenciaDAO {
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO dsi20203c.Competencia VALUES (NULL,?,NULL,?,?,?,?,'CREADA','?','?',?,?);");
+					"INSERT INTO dsi20203c.Competencia VALUES (NULL,?,NULL,?,?,?,?,'CREADA',?,?,?,?);");
 			pstm.setInt(1,comp.getIdAdministrador());
 			pstm.setString(2, comp.getNombre());
 			pstm.setInt(3, comp.getCantSets());

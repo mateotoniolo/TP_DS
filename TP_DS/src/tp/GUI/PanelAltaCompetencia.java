@@ -33,7 +33,7 @@ public class PanelAltaCompetencia extends JPanel {
 	private Integer cantSets = null;
 	private ModalidadDePuntuacion puntuacion;
 	private Double tantosXAusencia;
-	private Boolean empate;
+	private Boolean empate = false;
 	private Double puntosPartidoGanado;
 	private Double puntosPresentarse;
 	private Double puntosEmpate;
@@ -57,7 +57,6 @@ public class PanelAltaCompetencia extends JPanel {
 	private JTextField txtPuntosPartidoGanado;
 	private JTextField txtPuntosEmpate;
 	private JTextField txtPuntosPresentarse;
-	private JTextArea txtReglamento;
 	private JComboBox<Modalidad> boxModalidad;
 	private JComboBox<String> boxDeporte;
 	private JRadioButton rdbtnSets;
@@ -76,7 +75,6 @@ public class PanelAltaCompetencia extends JPanel {
 
 	//Define el Table model
 	AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
-	
 
 	public PanelAltaCompetencia(MainApplication m) {
 		initialize(m);
@@ -233,7 +231,7 @@ public class PanelAltaCompetencia extends JPanel {
 				txtPuntosPartidoGanado.setText("");
 				txtPuntosPresentarse.setEnabled(false);
 				txtPuntosPresentarse.setText("");
-				txtTantosAusencia.setEnabled(false);
+				txtTantosAusencia.setEnabled(true);
 				txtTantosAusencia.setText("");
 				rdbtnEmpate.setEnabled(false);
 				rdbtnEmpate.setSelected(false);
@@ -599,7 +597,7 @@ public class PanelAltaCompetencia extends JPanel {
 		scrollPane_1.setBounds(10, 429, 768, 186);
 		add(scrollPane_1);
 		
-		txtReglamento = new JTextArea();
+		JTextArea txtReglamento = new JTextArea();
 		txtReglamento.setMaximumSize(new Dimension(100, 100));
 		scrollPane_1.setViewportView(txtReglamento);
 		
@@ -670,6 +668,12 @@ public class PanelAltaCompetencia extends JPanel {
 			catch(Exception e) {
 				puntosPresentarse = null;
 			}
+			if(this.rdbtnEmpate.isSelected()) {
+				this.empate =true;
+				try {
+				this.puntosEmpate = Double.parseDouble(this.txtPuntosEmpate.getText());
+				}catch(Exception ex) {};
+			}
 			reglamentoCompetencia = txtReglamento.getText();
 			
 			//Set de modalidad de competencia
@@ -695,19 +699,13 @@ public class PanelAltaCompetencia extends JPanel {
 			id_deporte = deporteDao.getIDbyNombre(this.boxDeporte.getSelectedItem().toString());
 			
 			//Asigna valores de DTO
+			//-------------------------------------------------------------------------------------------------------------------
 			compDTO = new CompetenciaDTO(this.nombreCompetencia,this.modalidadCompetencia, this.reglamentoCompetencia,
 					this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
 					this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
 			//
 			if(gestorCompetencia.Save(compDTO)) {
 				System.out.println("Se guardo con exito");
-				DialogExito dialogExito = new DialogExito();
-				camposSeteoInicial();
-				
-			} else {
-				System.out.println("ERROR al guardar");
-				JDialog dialogAlerta = new DialogAlerta();
-				camposSeteoInicial();
 			}
 		});
 		
@@ -720,23 +718,6 @@ public class PanelAltaCompetencia extends JPanel {
 		}
 		return aux;
 	} 
-	
-	public void camposSeteoInicial() {
-		txtNombre.setText("");
-		txtCantidadSets.setText("");
-		txtPuntosEmpate.setText("");
-		txtPuntosPartidoGanado.setText("");
-		txtPuntosPresentarse.setText("");
-		txtTantosAusencia.setText("");
-		txtReglamento.setText("");
-		rdbtnEmpate.setEnabled(false);
-		rdbtnEmpate.setSelected(false);
-		rdbtnPuntuacion.setSelected(false);
-		rdbtnPuntuacionFinal.setSelected(false);
-		rdbtnSets.setSelected(true);
-		boxDeporte.setSelectedItem("----Seleccionar----");
-		boxModalidad.setSelectedItem("----Seleccionar----");
-	}
 
 	public String getDeporteCompetencia() {
 		return this.boxDeporte.getSelectedItem().toString();
