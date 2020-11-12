@@ -45,12 +45,12 @@ public class PanelAltaParticipante extends JPanel {
 			e.printStackTrace();
 		}
 		
-		setBackground(new Color(153, 204, 255));
+		setBackground(new Color(102, 102, 102));
 		m.setTitle("BUSCAR COMPETENCIA");
 		setBounds(100, 50, 1280, 720);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(204, 204, 204));
+		panel.setBackground(new Color(153, 204, 255));
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setDividerSize(0);
@@ -61,20 +61,24 @@ public class PanelAltaParticipante extends JPanel {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
-						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addContainerGap(14, Short.MAX_VALUE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(panel_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(splitPane, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGap(14)
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
+					.addGap(12)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 490, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 484, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(22, Short.MAX_VALUE))
@@ -128,11 +132,12 @@ public class PanelAltaParticipante extends JPanel {
 		splitPane.setLeftComponent(btnCancelar);
 		
 		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setBackground(new Color(51, 102, 255));
 		splitPane.setRightComponent(btnAgregar);
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNombreCompetencia = new JLabel("<NOMBRE COMPETENENCIA>");
-		lblNombreCompetencia.setFont(new Font("Tahoma", Font.PLAIN, 60));
+		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 60));
 		panel.add(lblNombreCompetencia, BorderLayout.WEST);
 		setLayout(groupLayout);
 		

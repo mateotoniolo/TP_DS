@@ -17,6 +17,8 @@ import tp.DTOs.ItemLugarDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.clases.*;
 import tp.enums.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 
 public class PanelAltaCompetencia extends JPanel {
@@ -93,28 +95,25 @@ public class PanelAltaCompetencia extends JPanel {
 			e.printStackTrace();
 		}
 		
-		setBackground(new Color(153, 204, 255));
+		setBackground(new Color(102, 102, 102));
 		m.setTitle("ALTA COMPETENCIA");
 		setBounds(100, 50, 1280, 720);
-		setLayout(null);
 
 		
 		btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setEnabled(false);
 //		btnConfirmar.setEnabled(true);
-		btnConfirmar.setBackground(new Color(102, 102, 255));
+		btnConfirmar.setBackground(new Color(51, 102, 255));
 		
 		JLabel lblNombre = new JLabel("Nombre *");
-		lblNombre.setBounds(10, 11, 152, 21);
+		lblNombre.setBounds(21, 13, 141, 22);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		add(lblNombre);
 		
 		//Campo de texto de nombre
 		txtNombre = new JTextField();
+		txtNombre.setBounds(18, 31, 506, 30);
 		txtNombre.setMinimumSize(new Dimension(15, 28));
 		txtNombre.setPreferredSize(new Dimension(15, 30));
-		txtNombre.setBounds(10, 31, 514, 30);
-		add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -159,19 +158,16 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		JLabel lblDeporte = new JLabel("Deporte *");
+		lblDeporte.setBounds(21, 69, 104, 25);
 		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDeporte.setBounds(10, 69, 115, 25);
-		add(lblDeporte);
 		//JBox de deporte
 		boxDeporte = new JComboBox<String>();
+		boxDeporte.setBounds(20, 96, 232, 30);
 		boxDeporte.setModel(new DefaultComboBoxModel<String>()); //Pide a la BD todos los nombre de los deportes y los asigna al ComboBox
 		boxDeporte.addItem("----Seleccionar----");
 		for(DeporteDTO d : GestorCompetencia.getDeportes()) {
 			boxDeporte.addItem(d.getNombre());
 		}
-		
-		boxDeporte.setBounds(10, 96, 232, 30);
-		add(boxDeporte);
 		boxDeporte.addActionListener( a -> {
 			this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vacía la tabla
 			this.tableLugares.updateUI();
@@ -208,15 +204,13 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		
 		JLabel lblModalidad = new JLabel("Modalidad *");
+		lblModalidad.setBounds(264, 69, 105, 22);
 		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblModalidad.setBounds(254, 69, 115, 22);
-		add(lblModalidad);
 		
 		//JBox modalidad
 		boxModalidad = new JComboBox<Modalidad>();
+		boxModalidad.setBounds(264, 96, 273, 30);
 		boxModalidad.setModel(new DefaultComboBoxModel(new String[] {"----Seleccionar----", "Liga", "Eliminacion Simple", "Eliminacion Doble"}));
-		boxModalidad.setBounds(254, 96, 270, 30);
-		add(boxModalidad);
 		
 		boxModalidad.addActionListener( a -> {// habilita las entradas de puntuacion
 			if(boxModalidad.getSelectedItem()=="Liga") {
@@ -268,19 +262,16 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n");
+		lblFormaPuntuacion.setBounds(21, 224, 179, 30);
 		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblFormaPuntuacion.setBounds(10, 224, 190, 30);
-		add(lblFormaPuntuacion);
 
 		
 		JLabel lblCantidadSets = new JLabel("Cantidad de Sets ");
+		lblCantidadSets.setBounds(21, 307, 141, 30);
 		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCantidadSets.setBounds(10, 307, 152, 30);
-		add(lblCantidadSets);
 		//Indica cantidad de sets
 		txtCantidadSets = new JTextField();
 		txtCantidadSets.setBounds(174, 311, 40, 26);
-		add(txtCantidadSets);
 		txtCantidadSets.setColumns(10);
 		txtCantidadSets.setEnabled(false);
 		
@@ -329,9 +320,8 @@ public class PanelAltaCompetencia extends JPanel {
 
 		
 		txtTantosAusencia = new JTextField();
-		txtTantosAusencia.setEnabled(false);
 		txtTantosAusencia.setBounds(456, 311, 40, 26);
-		add(txtTantosAusencia);
+		txtTantosAusencia.setEnabled(false);
 		txtTantosAusencia.setColumns(10);
 		
 		//ignora el ingreso de caracteres no numericos
@@ -380,19 +370,16 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		JLabel lblReglamento = new JLabel("Reglamento");
+		lblReglamento.setBounds(21, 387, 104, 30);
 		lblReglamento.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblReglamento.setBounds(10, 387, 115, 30);
-		add(lblReglamento);
 		
 		JLabel lblPuntosPartidoGanado = new JLabel("Puntos por Partido Ganado");
+		lblPuntosPartidoGanado.setBounds(21, 156, 231, 21);
 		lblPuntosPartidoGanado.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPuntosPartidoGanado.setBounds(10, 156, 219, 21);
-		add(lblPuntosPartidoGanado);
 		
 		txtPuntosPartidoGanado = new JTextField();
+		txtPuntosPartidoGanado.setBounds(243, 155, 40, 26);
 		txtPuntosPartidoGanado.setEnabled(false);
-		txtPuntosPartidoGanado.setBounds(227, 155, 40, 26);
-		add(txtPuntosPartidoGanado);
 		txtPuntosPartidoGanado.setColumns(10);
 		
 		//ignora el ingreso de caracteres no numericos
@@ -412,15 +399,13 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		JLabel lblPuntosEmpate = new JLabel("Puntos por Empate");
-		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblPuntosEmpate.setBounds(560, 155, 165, 24);
-		add(lblPuntosEmpate);
+		lblPuntosEmpate.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		
 		txtPuntosEmpate = new JTextField();
-		txtPuntosEmpate.setEnabled(false);
 		txtPuntosEmpate.setBounds(724, 156, 40, 26);
-		add(txtPuntosEmpate);
+		txtPuntosEmpate.setEnabled(false);
 		txtPuntosEmpate.setColumns(10);
 		
 		//ignora el ingreso de caracteres no numericos
@@ -469,10 +454,9 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		rdbtnEmpate = new JRadioButton("Empate");
+		rdbtnEmpate.setBounds(559, 130, 89, 23);
 		rdbtnEmpate.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		rdbtnEmpate.setEnabled(false);
-		rdbtnEmpate.setBounds(559, 130, 89, 23);
-		add(rdbtnEmpate);
 		
 		rdbtnEmpate.addActionListener( a -> {
 			if (rdbtnEmpate.isSelected()) {
@@ -486,14 +470,12 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		JLabel lblPuntosPresentarse = new JLabel("Puntos por Presentarse");
-		lblPuntosPresentarse.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblPuntosPresentarse.setBounds(295, 158, 194, 19);
-		add(lblPuntosPresentarse);
+		lblPuntosPresentarse.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		txtPuntosPresentarse = new JTextField();
-		txtPuntosPresentarse.setEnabled(false);
 		txtPuntosPresentarse.setBounds(484, 156, 40, 26);
-		add(txtPuntosPresentarse);
+		txtPuntosPresentarse.setEnabled(false);
 		txtPuntosPresentarse.setColumns(10);
 		
 		//ignora el ingreso de caracteres no numericos
@@ -514,20 +496,17 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 		rdbtnSets = new JRadioButton("Sets");
+		rdbtnSets.setBounds(21, 260, 104, 18);
 		rdbtnSets.setFont(new Font("SansSerif", Font.PLAIN, 18));
-		rdbtnSets.setBounds(10, 260, 115, 18);
-		add(rdbtnSets);
 		
 		rdbtnPuntuacion = new JRadioButton("Puntuacion");
-		rdbtnPuntuacion.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnPuntuacion.setBounds(291, 260, 115, 18);
+		rdbtnPuntuacion.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnPuntuacion.setSelected(true);
-		add(rdbtnPuntuacion);
 		
 		rdbtnPuntuacionFinal = new JRadioButton("Puntuacion Final");
-		rdbtnPuntuacionFinal.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnPuntuacionFinal.setBounds(560, 260, 175, 18);
-		add(rdbtnPuntuacionFinal);
+		rdbtnPuntuacionFinal.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
 		rdbtnSets.addActionListener( a -> {
 			rdbtnPuntuacion.setSelected(false);
@@ -568,9 +547,8 @@ public class PanelAltaCompetencia extends JPanel {
 //		JOptionPane.showMessageDialog(null, msg);
 		
 		JSplitPane splitCancelarConfirmar = new JSplitPane();
+		splitCancelarConfirmar.setBounds(1036, 677, 232, 30);
 		splitCancelarConfirmar.setDividerSize(0);
-		splitCancelarConfirmar.setBounds(1026, 667, 232, 30);
-		add(splitCancelarConfirmar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener( a -> {
@@ -580,10 +558,10 @@ public class PanelAltaCompetencia extends JPanel {
 		splitCancelarConfirmar.setLeftComponent(btnCancelar);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(802, 19, 456, 561);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBackground(new Color(204, 204, 204));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(802, 11, 456, 562);
-		add(scrollPane);
 		
 		tableLugares = new JTable();	
 		tableLugares.setModel(tableModel);	//tableModel se define arriba en los atributos
@@ -594,27 +572,23 @@ public class PanelAltaCompetencia extends JPanel {
 		scrollPane.setViewportView(tableLugares);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 429, 768, 186);
-		add(scrollPane_1);
+		scrollPane_1.setBounds(21, 429, 757, 186);
 		
 		JTextArea txtReglamento = new JTextArea();
 		txtReglamento.setMaximumSize(new Dimension(100, 100));
 		scrollPane_1.setViewportView(txtReglamento);
 		
 		JSeparator separator = new JSeparator();
+		separator.setBounds(21, 206, 757, 14);
 		separator.setBackground(Color.BLACK);
-		separator.setBounds(10, 206, 768, 14);
-		add(separator);
 
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(10, 362, 768, 14);
-		add(separator_1);
+		separator_1.setBounds(21, 362, 757, 14);
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setDividerSize(0);
 		splitPane.setBounds(802, 585, 232, 30);
-		add(splitPane);
+		splitPane.setDividerSize(0);
 		
 		btnModificarLugar = new JButton("Modificar Lugar");
 		btnModificarLugar.setEnabled(false);
@@ -624,10 +598,43 @@ public class PanelAltaCompetencia extends JPanel {
 		splitPane.setRightComponent(btnAgregarLugar);
 		
 		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia");
+		lblCantidadTantos.setBounds(276, 311, 190, 26);
 		lblCantidadTantos.setToolTipText("");
 		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCantidadTantos.setBounds(276, 311, 190, 26);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(12, 13, 1256, 613);
+		panel.setBackground(new Color(153, 204, 255));
+		setLayout(null);
+		add(lblCantidadSets);
+		add(txtPuntosPresentarse);
+		add(lblPuntosPartidoGanado);
+		add(lblNombre);
+		add(scrollPane);
+		add(boxModalidad);
+		add(lblModalidad);
+		add(separator);
+		add(rdbtnEmpate);
+		add(lblReglamento);
+		add(lblPuntosPresentarse);
+		add(rdbtnSets);
+		add(txtCantidadSets);
+		add(splitPane);
+		add(scrollPane_1);
+		add(separator_1);
+		add(txtTantosAusencia);
+		add(rdbtnPuntuacion);
+		add(rdbtnPuntuacionFinal);
+		add(lblDeporte);
 		add(lblCantidadTantos);
+		add(txtPuntosPartidoGanado);
+		add(txtPuntosEmpate);
+		add(lblFormaPuntuacion);
+		add(lblPuntosEmpate);
+		add(txtNombre);
+		add(boxDeporte);
+		add(panel);
+		add(splitCancelarConfirmar);
 		
 		btnAgregarLugar.addActionListener( a -> {
 			DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
